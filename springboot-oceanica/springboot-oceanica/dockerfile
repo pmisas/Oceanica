@@ -1,0 +1,14 @@
+# Usamos una imagen base de Java 17
+FROM openjdk:17-jdk-slim
+
+# Establecemos el directorio de trabajo
+WORKDIR /app
+
+# Copiamos el archivo JAR generado por Maven al contenedor
+COPY target/springboot-oceanica-0.0.1-SNAPSHOT.jar app.jar
+
+# Exponemos el puerto 8080
+EXPOSE 8081
+
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]

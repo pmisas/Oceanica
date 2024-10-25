@@ -2,6 +2,7 @@ package com.oceanica.springboot_oceanica.Controller;
 
 import com.oceanica.springboot_oceanica.Model.Usuario;
 import com.oceanica.springboot_oceanica.Repository.UsuarioRepository;
+import com.oceanica.springboot_oceanica.Security.JwtUtils;
 
 import java.util.Optional;
 
@@ -20,6 +21,9 @@ public class AuthController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @PostMapping("/registro")
     public ResponseEntity<?> registerUser(@RequestBody Usuario usuario) {
 
@@ -34,19 +38,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam String correo, @RequestParam String password) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(correo);
+    public String loginUser(@RequestBody Usuario usuario) {
+        Optional<Usuario> user = usuarioRepository.findByCorreo(usuario.getCorreo());
 
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
-
-            if (passwordEncoder.matches(password, usuario.getHash_password())) {
-                return ResponseEntity.ok("Login exitoso.");
-            } else {
-                return ResponseEntity.status(400).body("Contraseña incorrecta.");
-            }
+        if (user.isPresent() && passwordEncoder.matches(usuario.getHash_password(), user.get().getHash_password())) {
+            String role = user.get().getRol();
+            String token = jwtUtils.generateToken(user.get().getCorreo(), role);
+            return "Login exitoso. Token: " + token;
         } else {
-            return ResponseEntity.status(404).body("Usuario no encontrado.");
+            return "Credenciales inválidas";
         }
     }
 }

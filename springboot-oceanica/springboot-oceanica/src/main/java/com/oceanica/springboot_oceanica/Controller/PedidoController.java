@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,12 +28,16 @@ public class PedidoController {
         return pedidoRepository.findAll();
     }
 
+
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/enviados")
     public ResponseEntity<List<Pedido>> getPedidosEnviados() {
         List<Pedido> pedidosEnviados = pedidoRepository.findByEstado("enviado");
         return ResponseEntity.ok(pedidosEnviados);
     }
 
+
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/pendientes")
     public ResponseEntity<List<Pedido>> getPedidosPendientes() {
         List<Pedido> pedidosPendientes = pedidoRepository.findByEstado("pendiente");

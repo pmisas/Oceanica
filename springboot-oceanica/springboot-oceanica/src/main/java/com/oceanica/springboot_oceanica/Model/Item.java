@@ -1,11 +1,14 @@
 package com.oceanica.springboot_oceanica.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Item {
@@ -13,16 +16,24 @@ public class Item {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+
+   @Positive(message = "El precio unitario debe ser mayor que 0")
    private int cantidad;
+
+   @Positive(message = "El precio unitario debe ser mayor que 0")
    private double precio_unitario;
 
+
+   @NotNull(message = "El producto no puede ser nulo")
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_id")
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
+
 
    public Long getId() {
        return id;
@@ -55,6 +66,14 @@ public class Item {
    public void setProducto(Producto producto) {
         this.producto = producto;
    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
 
 
 }

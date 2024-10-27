@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.oceanica.springboot_oceanica.Model.Pedido;
+import com.oceanica.springboot_oceanica.Model.Enums.EstadoPedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     
-    List<Pedido> findByEstado(String estado);
+    List<Pedido> findByEstado(EstadoPedido pendiente);
 
 }

@@ -3,8 +3,13 @@ import com.oceanica.springboot_oceanica.Model.Categoria;
 import com.oceanica.springboot_oceanica.Model.Producto;
 import com.oceanica.springboot_oceanica.Repository.CategoriaRepository;
 import com.oceanica.springboot_oceanica.Repository.ProductoRepository;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -14,6 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/productos")
+@Validated
 public class ProductoController {
 
     @Autowired
@@ -22,12 +28,12 @@ public class ProductoController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @GetMapping
+    @GetMapping("/public")
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/public/{id}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Long id) {
         Optional<Producto> producto = productoRepository.findById(id);
         if (producto.isPresent()) {
@@ -37,8 +43,10 @@ public class ProductoController {
         }
     }
 
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createProducto(@RequestBody Producto producto) {
+    public ResponseEntity<?> createProducto(@Valid @RequestBody Producto producto) {
         if (producto.getCategorias() == null || producto.getCategorias().isEmpty()) {
             return ResponseEntity.status(400).body("Debe agregar al menos una categoría.");
         }
@@ -58,10 +66,9 @@ public class ProductoController {
         return ResponseEntity.ok(nuevoProducto);
     }
 
-
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProducto(@PathVariable Long id, @RequestBody Producto productoDetails) {
+    public ResponseEntity<?> updateProducto(@PathVariable Long id,@Valid @RequestBody Producto productoDetails) {
         Optional<Producto> productoOpt = productoRepository.findById(id);
 
         if (productoOpt.isPresent()) {
@@ -94,6 +101,8 @@ public class ProductoController {
     }
 
 
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
         Optional<Producto> producto = productoRepository.findById(id);

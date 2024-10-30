@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-category',
-  standalone: true,
-  imports: [],
   templateUrl: './category.component.html',
-  styleUrl: './category.component.scss'
+  styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
+  categoryName!: string; 
 
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    console.log("holiiiiii")
+    // Captura el parámetro de la ruta
+    this.route.paramMap.subscribe(params => {
+      this.categoryName = params.get('category') || ''; 
+    });
+  }
 }

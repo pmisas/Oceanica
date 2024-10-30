@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +9,15 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  ngOnInit(): void {
-    // Configuración inicial, si es necesario
+  constructor(private router: Router) {}
+  
+  ngOnInit(): void {}
+
+  navigateToCategory(category: string): void {
+    console.log(category)
+    this.router.navigate([`/${category}`]); 
   }
 
-  // Escucha el evento de scroll en la ventana
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const topbar = document.querySelector(".topbar") as HTMLElement;
@@ -21,25 +26,25 @@ export class NavbarComponent implements OnInit {
 
     if (window.scrollY > 0) {
       if (envioBar) {
-        envioBar.style.display = "none"; // Oculta el envio-bar al hacer scroll
+        envioBar.style.display = "none"; 
       }
       if (topbar) {
-        topbar.style.top = "-30px"; // Oculta la topbar al hacer scroll
+        topbar.style.top = "-30px"; 
       }
       if (navbar) {
-        navbar.style.top = "0"; // Mantén la navbar en la parte superior
-        navbar.style.height = "80px"; // Reduce la altura del navbar al hacer scroll
+        navbar.style.top = "0"; 
+        navbar.style.height = "80px"; 
       }
     } else {
       if (envioBar) {
-        envioBar.style.display = "block"; // Muestra el envio-bar al estar arriba
+        envioBar.style.display = "block"; 
       }
       if (topbar) {
-        topbar.style.top = "0"; // Restaura la posición de la topbar
+        topbar.style.top = "0"; 
       }
       if (navbar) {
-        navbar.style.top = "30px"; // Coloca la navbar debajo de la topbar
-        navbar.style.height = "100px"; // Altura original del navbar
+        navbar.style.top = "30px"; 
+        navbar.style.height = "100px"; 
       }
     }
   }

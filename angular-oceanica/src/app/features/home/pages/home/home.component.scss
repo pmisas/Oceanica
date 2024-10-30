@@ -1,62 +1,106 @@
-  .envio-bar {
-    background-color: #2f2f2f;
-    color: #fff;
-    text-align: center;
-    padding: 3px 0;
-    font-weight: 600;
-    font-size: 13.5px;
-    letter-spacing: 1.5px;
-    margin-top: 71px;
-  }
+.envio-bar {
+  background-color: #2f2f2f;
+  color: #fff;
+  text-align: center;
+  padding: 3px 0;
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 1.5px;
+  margin-top: 71px;
+}
+
+.mosaico {
+  display: grid;
+  gap: 10px;
+  max-width: 70%;
+  grid-template-columns: repeat(3, 1fr);
+  margin: auto;
+  margin-top: 30px;
+}
+
+.mosaico-item {
+  position: relative;
+}
+
+.mosaico-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+#ropa{
+  margin-left: 3%;
+}
+#buceo {
   
+  margin-left: 6%;
+}
+
+#electronica {
+  padding: 0px;
+}
+
+#deportes {
+  height: 71%;
+  width: 207%;
+  margin-top: 3%;
+  margin-left: 3%;
+}
+
+#piscina {
+  height: 100%;
+  margin-top: -21%;
+}
+
+.new-products {
+  display: flex;
+  margin-top: 60px;
+}
+.new-products .photo {
+  width: 100%;
+  max-width: 39%;
+}
+
+#new-photo {
+    max-width: 100%; /* Ajusta la imagen al ancho del contenedor 
+    height: auto; /* Mantiene la relación de aspecto */
+    object-fit: contain; /* Asegura que no se recorte */
+}
+
+.carrusel {
+  background-color: #2f2f2f;
+  width: 100%;
+  display: flex;
+}
+#title {
+  max-width: 80%; /* Ajusta el tamaño de la imagen */
+  margin: auto;
+  margin-top: -7%;
+}
+
+
+
+  /* Media query para pantallas de menos de 1024px */
+@media (max-width: 1024px) {
   .mosaico {
-    display: grid;
-    gap: 10px;
-    max-width: 70%;
-    grid-template-columns: repeat(3, 1fr);
-    margin: auto;
-    margin-top: 30px;
-  }
-  
-  .mosaico-item {
-    position: relative;
-  }
-  
-  .mosaico-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  #ropa{
-    margin-left: 3%;
-  }
-
-  #buceo {
     
-    margin-left: 6%;
+    grid-template-columns: repeat(2, 1fr);
   }
-  
+  .mosaico-item {
+      order: 0;
+  }
   #electronica {
-    padding: 0px;
-  }
-  
-  #deportes {
-    height: 71%;
-    width: 205%;
-    margin-top: 3%;
-    margin-left: 3%;
-  }
-  
-  #piscina {
     height: 100%;
-    margin-top: -90px;
-  }
-  
-  .new-products {
-    display: flex;
-  }
+    width: 200%;
+  }/* Primera fila */
+  #piscina { 
+    width: 200%;
+  }     /* Segunda fila */
+  #ropa { order: 3; }        /* Tercera fila, primera columna */
+  #buceo { order: 3; }       /* Tercera fila, segunda columna */
+  #deportes { order: 5; }    /* Última fila */
 
-  .new {
-    background-color: #f8f4f4;
+  #new-photo {
+    display: none;
   }
+}

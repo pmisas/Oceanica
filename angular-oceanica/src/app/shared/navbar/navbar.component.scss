@@ -4,7 +4,12 @@
     background-color: #d8d4d4;
     padding: 5px 0;
     width: 100%;
-    font-weight:500;
+    font-weight: 500;
+    z-index: 1100;
+}
+
+.topbar + .navbar {
+    top: 30px; /* Ajusta la posición de la navbar debajo de la topbar */
 }
 
 .topbar-content {
@@ -26,12 +31,29 @@
     gap: 15px;
 }
 
+/* Envio-bar */
+.envio-bar {
+    margin-top: 100px;
+    text-align: center;
+    background-color: #2f2f2f;
+    color: #ffffff;
+    padding: 2px 0;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    transition: top 0.3s, opacity 0.3s;
+}
+
 /* Navbar */
 .navbar {
+    position: fixed;
+    top: 0;
     width: 100%;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px 0; /* Añade padding para espaciar verticalmente */
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: height 0.3s; /* Transición para el cambio de altura */
+    height: 100px; /* Altura original */
 }
 
 .navbar-content {
@@ -40,6 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 20px;
 }
 
 .logo img {
@@ -47,9 +70,10 @@
     margin-right: 25px;
 }
 
+/* Estilos de enlaces en el navbar */
 .nav-links {
     display: flex;
-    gap: 20px; /* Aumenta el espacio entre los enlaces */
+    gap: 20px;
     list-style: none;
     font-size: 14px;
     padding: 20px 30px 0 100px;
@@ -64,7 +88,7 @@
 }
 
 .nav-links li a:hover {
-    color: #0a376e61; /* Cambia el color al pasar el cursor */
+    color: #0a376e61;
 }
 
 /* Efecto de barra transparente */
@@ -72,19 +96,20 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: -5px; /* Ajusta la posición debajo del texto */
+    bottom: -5px;
     width: 100%;
-    height: 2px; /* Altura de la barra */
-    background-color: #0a376e; /* Color y opacidad de la barra */
-    transform: scaleX(0); /* Oculto inicialmente */
+    height: 2px;
+    background-color: #0a376e;
+    transform: scaleX(0);
     transform-origin: left;
 }
 
 .nav-links li a:hover::after {
-    transform: scaleX(1); /* Expande la barra en hover */
+    transform: scaleX(1);
     background-color: #0a376e5d;
 }
 
+/* Iconos en la barra de navegación */
 .navbar-icons {
     display: flex;
     align-items: center;

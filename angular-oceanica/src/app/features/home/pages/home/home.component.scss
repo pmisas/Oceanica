@@ -1,10 +1,62 @@
-.envio-bar {
-    background-color: #2f2f2f; /* Color de fondo */
-    color: #fff; /* Color del texto */
-    text-align: center; /* Centrar texto */
-    padding: 3px 0; /* Espacio en vertical */
-    font-weight: 600; /* Texto en negrita */
+  .envio-bar {
+    background-color: #2f2f2f;
+    color: #fff;
+    text-align: center;
+    padding: 3px 0;
+    font-weight: 600;
     font-size: 13.5px;
     letter-spacing: 1.5px;
+    margin-top: 71px;
   }
   
+  .mosaico {
+    display: grid;
+    gap: 10px;
+    max-width: 70%;
+    grid-template-columns: repeat(3, 1fr);
+    margin: auto;
+    margin-top: 30px;
+  }
+  
+  .mosaico-item {
+    position: relative;
+  }
+  
+  .mosaico-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  #ropa{
+    margin-left: 3%;
+  }
+
+  #buceo {
+    
+    margin-left: 6%;
+  }
+  
+  #electronica {
+    padding: 0px;
+  }
+  
+  #deportes {
+    height: 71%;
+    width: 205%;
+    margin-top: 3%;
+    margin-left: 3%;
+  }
+  
+  #piscina {
+    height: 100%;
+    margin-top: -90px;
+  }
+  
+  .new-products {
+    display: flex;
+  }
+
+  .new {
+    background-color: #f8f4f4;
+  }

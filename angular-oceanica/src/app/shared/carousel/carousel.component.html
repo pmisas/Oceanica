@@ -1,18 +1,39 @@
 <div class="gallery-wrap">
-    <i class="fa-solid fa-chevron-right" id="nextBtn"></i>
-    <div class="gallery">
-        <div>
-            <span><img src="assets/images/image.png"></span>
-            <span><img src="assets/images/image1.png"></span>
+    <i id="backBtn" class="fa-solid fa-chevron-left" (click)="scrollLeft()"></i>
+    <div class="gallery" #gallery>
+        <div class="product">
+            <img src="assets/images/imagee.png">
+            <div class="product-info">
+                <button class="quick-buy">COMPRA RÁPIDA</button>
+                <p class="product-name">Nombre del Producto</p>
+                <p class="product-price">$159.900 COP</p>
+            </div>
         </div>
-        <div>
-            <span><img src="assets/images/image.png"></span>
-            <span><img src="assets/images/image1.png"></span>
+        <div class="product">
+            <img src="assets/images/image1.png">
+            <div class="product-info">
+                <button class="quick-buy">COMPRA RÁPIDA</button>
+                <p class="product-name">Nombre del Producto</p>
+                <p class="product-price">$219.900 COP</p>
+            </div>
         </div>
-        <div>
-            <span><img src="assets/images/image.png"></span>
-            <span><img src="assets/images/image1.png"></span>
+        <div class="product">
+            <img src="assets/images/imagee.png">
+            <div class="product-info">
+                <button class="quick-buy">COMPRA RÁPIDA</button>
+                <p class="product-name">Nombre del Producto</p>
+                <p class="product-price">$159.900 COP</p>
+            </div>
         </div>
+        <div class="product">
+            <img src="assets/images/image1.png">
+            <div class="product-info">
+                <button class="quick-buy">COMPRA RÁPIDA</button>
+                <p class="product-name">Nombre del Producto</p>
+                <p class="product-price">$219.900 COP</p>
+            </div>
+        </div>
+        <!-- Puedes agregar más productos aquí -->
     </div>
-    <i class="fa-solid fa-chevron-left" id="nextBtn"></i>
+    <i id="nextBtn" class="fa-solid fa-chevron-right" (click)="scrollRight()"></i>
 </div>

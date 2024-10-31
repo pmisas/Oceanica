@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CarouselComponent } from '../../../../shared/carousel/carousel.component';
 
 
 
@@ -13,7 +14,7 @@ interface Product {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CarouselComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

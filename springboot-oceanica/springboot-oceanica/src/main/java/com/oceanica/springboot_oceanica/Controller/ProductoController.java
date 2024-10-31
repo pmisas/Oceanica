@@ -17,10 +17,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/api/productos")
 @Validated
 public class ProductoController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
 
     @Autowired
     private ProductoRepository productoRepository;
@@ -30,20 +36,16 @@ public class ProductoController {
 
     @GetMapping("/public")
     public List<Producto> getAllProductos() {
+        logger.info("Fetching all products");
         return productoRepository.findAll();
     }
 
-    @GetMapping("/public/{id}")
-    public ResponseEntity<Producto> getProductoById(@PathVariable Long id) {
-        Optional<Producto> producto = productoRepository.findById(id);
-        if (producto.isPresent()) {
-            return ResponseEntity.ok(producto.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{categoria}/public")
+    public List<Producto> getProductosByCategoria(@PathVariable String categoria) {
+        logger.info("Fetching products by category: {}", categoria);
+        return productoRepository.findByCategorias_Nombre(categoria);
     }
 
-    
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createProducto(@Valid @RequestBody Producto producto) {

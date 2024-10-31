@@ -40,7 +40,7 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeRequests()
             .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/api/*/public/*", "/api/*/public").permitAll()
+            .requestMatchers("/api/*/public/*", "/api/*/public", "/api/*/*/public").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

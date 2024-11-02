@@ -7,7 +7,6 @@ export interface Producto {
     stock: number;
     descripcion: string;
     image: string;
-    categorias: Categoria[]; 
   }
   
   export interface Categoria {

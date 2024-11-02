@@ -1,1 +1,28 @@
-<p>category {{categoryName}} works!</p>
+<div class="products-container">
+    <div *ngFor="let producto of productos" class="product-card">
+      <div class="product-image">
+        <img [src]="producto.image" [alt]="producto.nombre">
+      </div>
+      <div class="quick-buy">
+        <button class="quick-buy-btn">COMPRA RÁPIDA</button>
+        <i class="fa-solid fa-search"></i>
+      </div>
+      <p class="product-name">{{ producto.nombre }}</p>
+      <p class="product-price">${{ producto.precio | currency:'COP' }}</p>
+    </div>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+    <p>holiii</p>
+  </div>
+  

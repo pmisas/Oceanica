@@ -1,9 +1,12 @@
+<!-- Banner de categoría -->
 <div class="category-banner" [ngStyle]="{'background-image': 'url(' + bannerImage + ')'}"></div>
 
+<!-- Contenedor de productos -->
 <div class="products-container">
   <div *ngFor="let producto of productos" class="product-card">
     <div class="product-image">
-      <img src="assets/images/image1.png" [alt]="producto.nombre" />
+      <!-- URL de imagen generada mediante getImageUrl -->
+      <img [src]="getImageUrl(producto.id)" [alt]="producto.nombre" />
     </div>
     <button class="quick-buy-btn">
       COMPRA RÁPIDA

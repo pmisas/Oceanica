@@ -1,4 +1,5 @@
 package com.oceanica.springboot_oceanica.Controller;
+
 import com.oceanica.springboot_oceanica.Model.Categoria;
 import com.oceanica.springboot_oceanica.Model.Producto;
 import com.oceanica.springboot_oceanica.Repository.CategoriaRepository;
@@ -7,16 +8,24 @@ import com.oceanica.springboot_oceanica.Repository.ProductoRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +42,9 @@ public class ProductoController {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Value("${image.upload.dir}")
+    private String imageUploadDir;
 
     @GetMapping("/public")
     public List<Producto> getAllProductos() {
@@ -68,9 +80,67 @@ public class ProductoController {
         return ResponseEntity.ok(nuevoProducto);
     }
 
+    @PostMapping("/{id}/uploadImage")
+    public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
+        Optional<Producto> productoOpt = productoRepository.findById(id);
+
+        if (!productoOpt.isPresent()) {
+            return ResponseEntity.status(404).body("Producto no encontrado");
+        }
+
+        Producto producto = productoOpt.get();
+
+        try {
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(imageUploadDir, fileName);
+
+            Files.createDirectories(filePath.getParent());
+            Files.copy(file.getInputStream(), filePath);
+
+            producto.setImage(fileName);
+            productoRepository.save(producto);
+
+            return ResponseEntity.ok("Imagen subida exitosamente");
+
+        } catch (IOException e) {
+            logger.error("Error al guardar la imagen en el sistema de archivos", e);
+            return ResponseEntity.status(500).body("Error al guardar la imagen");
+        }
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
+        Optional<Producto> productoOpt = productoRepository.findById(id);
+
+        if (!productoOpt.isPresent()) {
+            return ResponseEntity.status(404).body(null);
+        }
+
+        Producto producto = productoOpt.get();
+        if (producto.getImage() == null) {
+            return ResponseEntity.status(404).body(null);
+        }
+
+        Path imagePath = Paths.get(imageUploadDir, producto.getImage());
+
+        try {
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imagePath.getFileName().toString() + "\"")
+                    .body(imageBytes);
+
+        } catch (IOException e) {
+            logger.error("Error al leer la imagen desde el sistema de archivos", e);
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProducto(@PathVariable Long id,@Valid @RequestBody Producto productoDetails) {
+    public ResponseEntity<?> updateProducto(@PathVariable Long id, @Valid @RequestBody Producto productoDetails) {
         Optional<Producto> productoOpt = productoRepository.findById(id);
 
         if (productoOpt.isPresent()) {
@@ -80,7 +150,6 @@ public class ProductoController {
             productoActualizado.setPrecio(productoDetails.getPrecio());
             productoActualizado.setStock(productoDetails.getStock());
             productoActualizado.setDescripcion(productoDetails.getDescripcion());
-            productoActualizado.setImage(productoDetails.getImage());
 
             if (productoDetails.getCategorias() != null && !productoDetails.getCategorias().isEmpty()) {
                 Set<Categoria> categoriasValidas = new HashSet<>();
@@ -94,7 +163,7 @@ public class ProductoController {
                 }
                 productoActualizado.setCategorias(categoriasValidas);
             }
-        
+
             productoRepository.save(productoActualizado);
             return ResponseEntity.ok(productoActualizado);
         } else {
@@ -102,8 +171,6 @@ public class ProductoController {
         }
     }
 
-
-    
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
@@ -115,5 +182,4 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

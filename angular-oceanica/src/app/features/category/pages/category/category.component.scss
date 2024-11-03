@@ -1,6 +1,6 @@
 .category-banner {
   width: 100%;
-  height: 300px; // Ajusta la altura según tus necesidades
+  height: 300px; 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -10,7 +10,7 @@
 
 .products-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // Tres columnas en cada fila
+  grid-template-columns: repeat(3, 1fr); 
   gap: 20px;
   padding: 20px;
   margin-left: 12%;
@@ -37,10 +37,10 @@
 }
 
 .product-image img {
-  width: 100%; /* La imagen ocupará todo el ancho del contenedor */
-  height: auto; /* La altura se ajustará automáticamente */
-  max-height: 300px; /* Ajusta este valor según tus necesidades */
-  object-fit: contain; /* Asegura que la imagen no se recorte */
+  width: 100%; 
+  height: auto; 
+  max-height: 300px; 
+  object-fit: contain; 
 }
 
 .quick-buy-btn {
@@ -76,6 +76,21 @@
   background-color: #ee3224;
 }
 
+.product-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+}
+
 .product-name {
   font-size: 1.1em;
   font-weight: 600;
@@ -94,13 +109,12 @@
   font-weight: bold;
 }
 
-/* Media Queries para diseño responsive */
 
 @media (max-width: 1024px) {
   .products-container {
-    grid-template-columns: repeat(2, 1fr); // Cambia a 2 columnas en pantallas medianas
+    grid-template-columns: repeat(2, 1fr); 
   }
   .product-image img {
-    max-height: 250px; // Ajusta la altura de la imagen en pantallas medianas
+    max-height: 250px; 
   }
 }

@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.categoryName = params.get('category') || '';
-      this.setBannerImage(this.categoryName); // Cambia la imagen según la categoría
+      this.setBannerImage(this.categoryName);
       this.getProductsByCategory(this.categoryName);
     });
   }
@@ -36,16 +36,12 @@ export class CategoryComponent implements OnInit {
   }
 
   setBannerImage(category: string): void {
-    // Cambia las URLs de las imágenes según la categoría
     switch (category.toLowerCase()) {
       case 'buceo':
         this.bannerImage = 'assets/images/baner/buceo_baner.jpg';
         break;
       case 'ropa':
         this.bannerImage = 'assets/images/baner/ropa_baner.jpg';
-        break;
-      case 'seguridad':
-        this.bannerImage = 'assets/images/baner/seguridad_baner.jpg';
         break;
       case 'playa':
         this.bannerImage = 'assets/images/baner/playa_baner.jpg';
@@ -56,12 +52,17 @@ export class CategoryComponent implements OnInit {
       case 'electronica':
         this.bannerImage = 'assets/images/baner/electronica_baner.jpg';
         break;
-      case 'deportes':
+      case 'deporte':
         this.bannerImage = 'assets/images/baner/deportes_baner.png';
         break;
-      case 'accesorios':
-          this.bannerImage = 'assets/images/baner/accesorios_baner.jpg';
-          break;
+      case 'mantenimiento':
+        this.bannerImage = 'assets/images/baner/seguridad_baner.jpg';
+        break;
     }
+  }
+
+  getImageUrl(productId: number): string {
+    // Construye la URL de la imagen usando el ID del producto y el endpoint específico
+    return `http://localhost:8081/api/productos/${productId}/image`;
   }
 }

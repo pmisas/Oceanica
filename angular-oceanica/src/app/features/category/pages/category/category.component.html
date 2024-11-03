@@ -1,28 +1,15 @@
+<div class="category-banner" [ngStyle]="{'background-image': 'url(' + bannerImage + ')'}"></div>
+
 <div class="products-container">
-    <div *ngFor="let producto of productos" class="product-card">
-      <div class="product-image">
-        <img [src]="producto.image" [alt]="producto.nombre">
-      </div>
-      <div class="quick-buy">
-        <button class="quick-buy-btn">COMPRA RÁPIDA</button>
-        <i class="fa-solid fa-search"></i>
-      </div>
-      <p class="product-name">{{ producto.nombre }}</p>
-      <p class="product-price">${{ producto.precio | currency:'COP' }}</p>
+  <div *ngFor="let producto of productos" class="product-card">
+    <div class="product-image">
+      <img src="assets/images/image1.png" [alt]="producto.nombre" />
     </div>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
-    <p>holiii</p>
+    <button class="quick-buy-btn">
+      COMPRA RÁPIDA
+      <i class="fa-solid fa-search"></i>
+    </button>
+    <p class="product-name">{{ producto.nombre }}</p>
+    <p class="product-price">${{ producto.precio | currency:'COP' }}</p>
   </div>
-  
+</div>

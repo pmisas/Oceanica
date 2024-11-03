@@ -1,78 +1,106 @@
+.category-banner {
+  width: 100%;
+  height: 300px; // Ajusta la altura según tus necesidades
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 20px;
+}
+
+
 .products-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // Tres columnas en cada fila
+  gap: 20px;
+  padding: 20px;
+  margin-left: 12%;
+  margin-right: 12%;
+}
+
+.product-card {
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: none;
+  transition: transform 0.2s;
+}
+
+
+.product-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image img {
+  width: 100%; /* La imagen ocupará todo el ancho del contenedor */
+  height: auto; /* La altura se ajustará automáticamente */
+  max-height: 300px; /* Ajusta este valor según tus necesidades */
+  object-fit: contain; /* Asegura que la imagen no se recorte */
+}
+
+.quick-buy-btn {
+  width: 90%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  background-color: #302c2c;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(0.7rem, 2vw, 0.8rem); /* Ajusta dinámicamente el tamaño del texto */
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+.quick-buy-btn i {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ee3224;
+  padding: 5px;
+  height: 35px;
+  width: 35px;
+  font-size: 0.9rem;
+}
+
+.quick-buy-btn:hover {
+  background-color: #ee3224;
+}
+
+.product-name {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.product-price {
+  font-size: 1em;
+  color: #e53935;
+  font-weight: bold;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Media Queries para diseño responsive */
+
+@media (max-width: 1024px) {
+  .products-container {
+    grid-template-columns: repeat(2, 1fr); // Cambia a 2 columnas en pantallas medianas
   }
-  
-  .product-card {
-    width: 200px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    position: relative;
-  
-    &:hover {
-      transform: scale(1.05);
-    }
+  .product-image img {
+    max-height: 250px; // Ajusta la altura de la imagen en pantallas medianas
   }
-  
-  .product-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-    }
-  }
-  
-  .quick-buy {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #302c2c;
-    color: #fff;
-    font-weight: 800;
-    padding: 5px;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  
-    .quick-buy-btn {
-      flex: 1;
-      border: none;
-      background: none;
-      color: #fff;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-  
-    .fa-search {
-      background-color: #ee3224;
-      padding: 5px;
-      border-radius: 0;
-      color: #fff;
-      margin-left: 5px;
-    }
-  }
-  
-  .product-name {
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .product-price {
-    color: red;
-    font-weight: bold;
-    margin-top: 5px;
-  }
-  
+}

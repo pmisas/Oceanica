@@ -9,19 +9,20 @@ import { ProductService } from '../../../../shared/services/product.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  categoryName!: string; 
-  productos: Producto[] = []; // Almacena los productos obtenidos
+  categoryName!: string;
+  productos: Producto[] = [];
+  bannerImage: string = '';
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService // Inyecta el servicio
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
-    // Captura el parámetro de la ruta
     this.route.paramMap.subscribe(params => {
-      this.categoryName = params.get('category') || ''; 
-      this.getProductsByCategory(this.categoryName); // Llama al método para obtener productos
+      this.categoryName = params.get('category') || '';
+      this.setBannerImage(this.categoryName); // Cambia la imagen según la categoría
+      this.getProductsByCategory(this.categoryName);
     });
   }
 
@@ -29,9 +30,38 @@ export class CategoryComponent implements OnInit {
     this.productService.getProductsByCategory(category).subscribe(
       (productos) => {
         this.productos = productos;
-        console.log('Productos obtenidos:', productos);
       },
       (error) => console.error('Error al obtener los productos', error)
     );
+  }
+
+  setBannerImage(category: string): void {
+    // Cambia las URLs de las imágenes según la categoría
+    switch (category.toLowerCase()) {
+      case 'buceo':
+        this.bannerImage = 'assets/images/baner/buceo_baner.jpg';
+        break;
+      case 'ropa':
+        this.bannerImage = 'assets/images/baner/ropa_baner.jpg';
+        break;
+      case 'seguridad':
+        this.bannerImage = 'assets/images/baner/seguridad_baner.jpg';
+        break;
+      case 'playa':
+        this.bannerImage = 'assets/images/baner/playa_baner.jpg';
+        break;
+      case 'piscina':
+        this.bannerImage = 'assets/images/baner/piscina_baner.png';
+        break;
+      case 'electronica':
+        this.bannerImage = 'assets/images/baner/electronica_baner.jpg';
+        break;
+      case 'deportes':
+        this.bannerImage = 'assets/images/baner/deportes_baner.png';
+        break;
+      case 'accesorios':
+          this.bannerImage = 'assets/images/baner/accesorios_baner.jpg';
+          break;
+    }
   }
 }

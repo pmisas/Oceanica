@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,10 @@ import com.oceanica.springboot_oceanica.Repository.PedidoRepository;
 import com.oceanica.springboot_oceanica.Repository.ProductoRepository;
 import com.oceanica.springboot_oceanica.Repository.UsuarioRepository;
 import com.oceanica.springboot_oceanica.dto.ItemDTO;
+import com.oceanica.springboot_oceanica.dto.ItemResumenDTO;
 import com.oceanica.springboot_oceanica.dto.PedidoDTO;
+import com.oceanica.springboot_oceanica.dto.PedidoResumenDTO;
+import com.oceanica.springboot_oceanica.dto.ProductoResumenDTO;
 
 import jakarta.validation.Valid;
 
@@ -122,11 +126,40 @@ public class PedidoController {
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/pendientes")
-    public ResponseEntity<List<Pedido>> getPedidosPendientes() {
-        List<Pedido> pedidosPendientes = pedidoRepository.findByEstado(EstadoPedido.PENDIENTE);
-        return ResponseEntity.ok(pedidosPendientes);
-    }
+@GetMapping("/pendientes")
+public ResponseEntity<List<PedidoResumenDTO>> getPedidosPendientes() {
+    List<Pedido> pedidosPendientes = pedidoRepository.findByEstado(EstadoPedido.PENDIENTE);
+
+    List<PedidoResumenDTO> pedidosDTO = pedidosPendientes.stream().map(pedido -> {
+        PedidoResumenDTO pedidoDTO = new PedidoResumenDTO();
+        pedidoDTO.setId(pedido.getId());
+        pedidoDTO.setFecha(pedido.getFecha());
+        pedidoDTO.setTotal(pedido.getTotal());
+        pedidoDTO.setDireccion(pedido.getDireccion());
+        pedidoDTO.setEstado(pedido.getEstado());
+
+        List<ItemResumenDTO> itemsDTO = pedido.getItems().stream().map(item -> {
+            ItemResumenDTO itemDTO = new ItemResumenDTO();
+            itemDTO.setId(item.getId());
+            itemDTO.setCantidad(item.getCantidad());
+            itemDTO.setPrecio_unitario(item.getPrecio_unitario());
+
+            ProductoResumenDTO productoResumen = new ProductoResumenDTO();
+            productoResumen.setId(item.getProducto().getId());
+            productoResumen.setNombre(item.getProducto().getNombre());
+            itemDTO.setProducto(productoResumen);
+
+            return itemDTO;
+        }).collect(Collectors.toList());
+
+        pedidoDTO.setItems(itemsDTO);
+        return pedidoDTO;
+    }).collect(Collectors.toList());
+
+    return ResponseEntity.ok(pedidosDTO);
+}
+
+
     
     
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -9,9 +9,12 @@ import com.oceanica.springboot_oceanica.dto.UsuarioRegistroDTO;
 
 import jakarta.validation.Valid;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -47,16 +50,29 @@ public class AuthController {
         return ResponseEntity.ok("Usuario registrado exitosamente.");
     }
 
-    @PostMapping("/login")
-    public String loginUser(@Valid @RequestBody UsuarioLoginDTO usuarioLoginDTO) {
-        Optional<Usuario> user = usuarioRepository.findByCorreo(usuarioLoginDTO.getCorreo());
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> loginUser(@Valid @RequestBody UsuarioLoginDTO usuarioLoginDTO) {
+        Optional<Usuario> user = usuarioRepository.findByCorreo(usuarioLoginDTO.getCorreo());
+    
         if (user.isPresent() && passwordEncoder.matches(usuarioLoginDTO.getHash_password(), user.get().getHash_password())) {
             RolUsuario role = user.get().getRol();
             String token = jwtUtils.generateToken(user.get().getCorreo(), role);
-            return "Login exitoso. Token: " + token;
+        
+            // Creamos una respuesta en formato JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login exitoso");
+            response.put("token", token);
+        
+            return ResponseEntity.ok(response);
         } else {
-            return "Credenciales inválidas";
+            // Respuesta de error en formato JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "Credenciales inválidas");
+            
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+
 }

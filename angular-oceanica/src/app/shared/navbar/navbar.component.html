@@ -6,7 +6,7 @@
             <span class="topbar-item">Localizador de tiendas</span>
         </div>
         <div class="topbar-right">
-            <span class="topbar-item">Mi Cuenta</span>
+            <span class="topbar-item" (click)="navigateToLogin()">Mi Cuenta</span>
         </div>
     </div>
 </div>
@@ -14,16 +14,16 @@
 <nav class="navbar">
     <div class="navbar-content">
         <div class="logo">
-            <img src="assets/images/navbar/logo.png" alt="..."  (click)="navigateToCategory('')">
+            <img src="assets/images/navbar/logo.png" alt="..." (click)="navigateToCategory('')">
         </div>
         <ul class="nav-links">
-            <li><a href="buceo">BUCEO</a></li>
-            <li><a href="ropa">ROPA</a></li>
-            <li><a href="deporte">DEPORTE</a></li>
-            <li><a href="electronica">ELECTRONICA</a></li>
-            <li><a href="mantenimiento">MANTENIMIENTO</a></li>
-            <li><a href="playa">PLAYA</a></li>
-            <li><a href="piscina">PISCINA</a></li>
+            <li><a (click)="navigateToCategory('buceo')">BUCEO</a></li>
+            <li><a (click)="navigateToCategory('ropa')">ROPA</a></li>
+            <li><a (click)="navigateToCategory('deporte')">DEPORTE</a></li>
+            <li><a (click)="navigateToCategory('electronica')">ELECTRONICA</a></li>
+            <li><a (click)="navigateToCategory('mantenimiento')">MANTENIMIENTO</a></li>
+            <li><a (click)="navigateToCategory('playa')">PLAYA</a></li>
+            <li><a (click)="navigateToCategory('piscina')">PISCINA</a></li>
         </ul>
         <div class="navbar-icons">
             <i class="fas fa-search"></i>
@@ -38,4 +38,3 @@
 <div class="envio-bar">
     ENVÍO GRATIS POR COMPRAS MAYORES A $100.000
 </div>
-

@@ -10,12 +10,15 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   constructor(private router: Router) {}
-  
+
   ngOnInit(): void {}
 
   navigateToCategory(category: string): void {
-    console.log(category)
     this.router.navigate([`/${category}`]); 
+  }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/auth/login']); // Redirige a la página de login
   }
 
   @HostListener('window:scroll', [])

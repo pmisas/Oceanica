@@ -23,6 +23,7 @@
 
 .topbar-item {
     margin: 0 10px;
+    cursor: pointer;
 }
 
 .topbar-left,
@@ -157,3 +158,25 @@ i.fas.fa-shopping-cart::before {
     font-size: 8px;
     font-weight: 100;
 }
+
+.admin-bar {
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.admin-bar-item {
+    color: white;
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.admin-bar-item:hover {
+    background-color: #555;
+}
+

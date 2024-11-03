@@ -1,0 +1,43 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Detalles</th>
+            <th scope="col">Total Compra</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        <tr *ngFor="let pedido of pedidos">
+            <th scope="row">{{ pedido.id }}</th>
+            <td>{{ pedido.direccion }}</td>
+            <td><i class="fas fa-eye" (click)="openModal(pedido)"></i></td>
+            <td style="font-weight: 500;">$COP {{ pedido.total }}</td>
+            <td>{{ pedido.fecha | date }}</td>
+            <td><button class="btn btn-danger">Pedido Enviado</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<ng-container *ngIf="showModal">
+    <div class="modalt">
+      <div class="modalt-content">
+        <div class="modalt-header">
+          <h5 class="modal-title">Detalles del Pedido #{{ selectedPedido?.id }}</h5>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" (click)="closeModal()">
+            <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"/>
+          </svg>
+        </div>
+        <div class="modalt-container">
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let item of selectedPedido?.items">
+                  <strong>ID {{item.producto.id}} - {{ item.producto.nombre }}</strong> - Cantidad: {{ item.cantidad }} - Precio unitario: $COP {{ item.precio_unitario }}
+                </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+</ng-container>

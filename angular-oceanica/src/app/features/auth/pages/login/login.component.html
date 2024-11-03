@@ -1,0 +1,34 @@
+<ng-container>
+    <div class="modalt">
+      <div class="modalt-content">
+        <div class="modalt-header">
+          <p class="name">Ingresa con e-mail y contraseña</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" (click)="closeModal()">
+            <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"/>
+          </svg>
+        </div>
+        <div class="modalt-container">
+          <!-- Mensaje de error -->
+          <p *ngIf="loginError" class="error-message">{{ loginError }}</p>
+  
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="email">Digita tu e-mail</label>
+              <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="admin@gmail.com" required />
+            </div>
+  
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input type="password" id="password" [(ngModel)]="password" name="password" required />
+            </div>
+  
+            <div class="buttons">
+              <button type="button" class="back-btn" (click)="closeModal()">← Volver</button>
+              <button type="submit" class="login-btn">Ingresar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  

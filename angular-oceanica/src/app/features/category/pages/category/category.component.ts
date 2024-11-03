@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Producto } from '../../../../shared/models/producto.model';
-import { ProductService } from '../../../../shared/services/product.service';
+import { ProductService } from '../../../../shared/services/product/product.service';
 
 @Component({
   selector: 'app-category',

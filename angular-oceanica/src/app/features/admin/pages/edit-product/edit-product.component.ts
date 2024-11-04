@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Categoria } from '../../../../shared/models/producto.model';
 
 interface Producto {
   id: number;
   descripcion: string;
-  imagenUrl: string;
+  image: string;
   nombre: string;
   precio: number;
   stock: number;
+  categorias: string[];
 }
 
 @Component({
@@ -21,10 +23,19 @@ interface Producto {
 })
 export class EditProductComponent implements OnInit {
   productos: Producto[] = [];
+  categorias: string[] = ['playa', 'ropa', 'buceo', 'piscina', 'electronica', 'mantenimiento', 'deporte'];
+  productosFiltrados: Producto[] = [];
   productosPaginados: Producto[] = [];
+  selectedFilter: string = 'todos';
+  selectedCategory: string = '';
+  selectedId: number | null = null;
   paginaActual: number = 1;
   itemsPorPagina: number = 10;
   totalPaginas: number = 1;
+
+  // Almacenará las categorías seleccionadas por producto
+  categoriasSeleccionadas: { [key: number]: (Categoria | string)[] } = {};
+
 
   constructor(private productoService: ProductService) {}
 
@@ -35,8 +46,30 @@ export class EditProductComponent implements OnInit {
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe((data: Producto[]) => {
       this.productos = data;
+      this.productos.forEach(producto => {
+        this.categoriasSeleccionadas[producto.id] = producto.categorias || [];
+      });
       this.actualizarPaginacion();
     });
+    
+  }
+  
+  onFilterChange(): void {
+    this.selectedCategory = '';
+    this.selectedId = null;
+  }
+
+  filtrar(): void {
+    if (this.selectedFilter === 'todos') {
+      this.productosFiltrados = [...this.productos];
+    } else if (this.selectedFilter === 'categoria' && this.selectedCategory) {
+      this.productosFiltrados = this.productos.filter(producto =>
+        producto.categorias.includes(this.selectedCategory)
+      );
+    } else if (this.selectedFilter === 'id' && this.selectedId !== null) {
+      this.productosFiltrados = this.productos.filter(producto => producto.id === this.selectedId);
+    }
+    this.actualizarPaginacion();
   }
 
   actualizarPaginacion(): void {
@@ -46,21 +79,61 @@ export class EditProductComponent implements OnInit {
     this.productosPaginados = this.productos.slice(inicio, fin);
   }
 
+  cambiarPagina(nuevaPagina: number): void {
+    this.paginaActual = nuevaPagina;
+    this.actualizarPaginacion();
+  }
+
   eliminarProducto(id: number): void {
     this.productoService.eliminarProducto(id).subscribe(() => {
       this.productos = this.productos.filter((producto) => producto.id !== id);
+      delete this.categoriasSeleccionadas[id];
       this.actualizarPaginacion();
     });
   }
 
-  cambiarPagina(nuevaPagina: number): void {
-    if (nuevaPagina > 0 && nuevaPagina <= this.totalPaginas) {
-      this.paginaActual = nuevaPagina;
-      this.actualizarPaginacion();
-    }
+  editarProducto(producto: Producto): void {
+    const productoEditado = { ...producto, categorias: this.categoriasSeleccionadas[producto.id] };
+    this.productoService.editarProducto(producto.id, productoEditado).subscribe(() => {
+      alert('Producto actualizado exitosamente');
+    });
   }
 
   getImageUrl(productId: number): string {
-    return `http://localhost:8081/api/productos/${productId}/image`;
+    return this.productoService.getImageUrl(productId);
   }
+
+  
+  isSelected(productoId: number, categoria: string): boolean {
+    const seleccionadas = this.categoriasSeleccionadas[productoId];
+    const estaSeleccionada = seleccionadas?.some(cat => 
+      typeof cat === 'string' ? cat === categoria : cat.nombre === categoria
+    ) || false;
+    return estaSeleccionada;
+  }
+  
+  
+  toggleCategory(productoId: number, categoria: string): void {
+    const selectedCategories = this.categoriasSeleccionadas[productoId] || [];
+  
+    const index = selectedCategories.findIndex(cat => 
+      typeof cat === 'string' ? cat === categoria : cat.nombre === categoria
+    );
+  
+    if (index !== -1) {
+      this.categoriasSeleccionadas[productoId] = [
+        ...selectedCategories.slice(0, index),
+        ...selectedCategories.slice(index + 1)
+      ];
+    } else {
+      this.categoriasSeleccionadas[productoId] = [
+        ...selectedCategories,
+        categoria
+      ];
+    }
+  }
+  
+
+  
+  
 }

@@ -23,6 +23,8 @@ import java.util.Set;
 
 @Entity
 public class Pedido {
+    public static final String LocalDate = null;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

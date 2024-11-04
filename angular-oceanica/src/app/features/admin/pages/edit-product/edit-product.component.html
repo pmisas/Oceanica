@@ -1,42 +1,86 @@
+<div class="filter-bar-container">
+    <label class="filter-label">Filtrar por:</label>
+    <div class="filter-bar">
+        <!-- Selección de filtro principal -->
+        <select id="filter-select" [(ngModel)]="selectedFilter" (change)="onFilterChange()" class="filter-select">
+            <option value="todos">Todos</option>
+            <option value="categoria">Categoría</option>
+            <option value="id">ID</option>
+        </select>
+
+        <!-- Filtro de categoría -->
+        <div *ngIf="selectedFilter === 'categoria'" class="filter-category-container">
+            <select [(ngModel)]="selectedCategory" class="filter-category">
+                <option value="" disabled selected>Seleccione una categoría</option>
+                <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+            </select>
+        </div>
+
+        <!-- Filtro de ID -->
+        <div *ngIf="selectedFilter === 'id'" class="filter-category-container">
+            <input type="number" [(ngModel)]="selectedId" class="filter-id" placeholder="Ingrese ID" min="1" step="1"/>
+        </div>
+
+        <!-- Botón de búsqueda con icono de lupa -->
+        <button (click)="filtrar()" class="btn-search">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+</div>
+
 <div class="table-container">
     <table class="table">
-      <thead>
-        <tr>
-          <th class="col-id">ID</th>
-          <th class="col-descripcion">Descripción</th>
-          <th class="col-imagen">Imagen</th>
-          <th class="col-nombre">Nombre</th>
-          <th class="col-precio">Precio</th>
-          <th class="col-stock">Stock</th>
-          <th class="col-accion">Acción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let producto of productosPaginados">
-          <td>{{ producto.id }}</td>
-          <td><textarea [(ngModel)]="producto.descripcion" maxlength="500"></textarea></td>
-          <td>
-            <img [src]="getImageUrl(producto.id)" alt="{{ producto.nombre }}" class="product-image" />
-          </td>
-          <td><textarea [(ngModel)]="producto.nombre" maxlength="100" style="height: 10%;"></textarea></td>
-          <td><input type="number" [(ngModel)]="producto.precio" /></td>
-          <td><input type="number" [(ngModel)]="producto.stock" /></td>
-          <td>
-            <button class="btn btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th class="col-id">ID</th>
+                <th class="col-descripcion">Descripción</th>
+                <th class="col-imagen">Imagen</th>
+                <th class="col-nombre">Nombre</th>
+                <th class="col-precio">Precio</th>
+                <th class="col-stock">Stock</th>
+                <th class="col-categorias">Categorías</th>
+                <th class="col-accion">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productosPaginados">
+                <td>{{ producto.id }}</td>
+                <td><textarea [(ngModel)]="producto.descripcion" maxlength="500" class="txt"></textarea></td>
+                <td>
+                    <img [src]="getImageUrl(producto.id)" alt="{{ producto.nombre }}" class="product-image" />
+                </td>
+                <td><textarea [(ngModel)]="producto.nombre" maxlength="100" class="txt"></textarea></td>
+                <td><input type="number" [(ngModel)]="producto.precio" class="txt"/></td>
+                <td><input type="number" [(ngModel)]="producto.stock" class="txt"/></td>
+                <td>
+                    <div class="tags-container">
+                        <span 
+                            *ngFor="let categoria of categorias"
+                            class="tag"
+                            [class.selected]="isSelected(producto.id, categoria)"
+                            (click)="toggleCategory(producto.id, categoria)">
+                            {{ categoria }}
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
+                        <button class="btn btn-dark" (click)="editarProducto(producto)">Editar</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
-  
+
     <!-- Paginación -->
     <div class="pagination">
         <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
-          Anterior
+            Anterior
         </button>
         <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
         <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
-          Siguiente
+            Siguiente
         </button>
     </div>
-  </div>
-  
+</div>

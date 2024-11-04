@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: oceanica-db
+    image: postgres:17
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./springboot-oceanica/springboot-oceanica/Infraestructure/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: oceanicadb
+      POSTGRES_USER: paula
+    ports:
+      - "5434:5432"
+
+  backend:
+    container_name: oceanica-backend
+    build:
+      context: ./springboot-oceanica/springboot-oceanica 
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/oceanicadb
+      SPRING_DATASOURCE_USERNAME: paula
+      SPRING_DATASOURCE_PASSWORD: 123
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  frontend:
+    container_name: oceanica-frontend
+    build:
+      context: ./angular-oceanica
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

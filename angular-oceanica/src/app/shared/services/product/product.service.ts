@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Producto } from '../../models/producto.model';
+import { Producto, Categoria } from '../../models/producto.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,15 +12,15 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProductsByCategory(categoria: string){
-    const url = `${this.apiUrl}/${categoria}/public`;
-    return this.http.get<Producto[]>(url);
+  private getToken(): string | null {
+    return sessionStorage.getItem('authToken');
   }
 
-  private apiUrlImage = 'http://localhost:8081/api/productos';
-
-  getImageUrl(productId: number): string {
-    return `${this.apiUrlImage}/${productId}/image`;
+  private getHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
   obtenerProductos(): Observable<any[]> {
@@ -28,7 +28,20 @@ export class ProductService {
   }
 
   eliminarProducto(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
+  editarProducto(id: number, producto: any): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put(url, producto, { headers: this.getHeaders() });
+  }
+
+  getImageUrl(productId: number): string {
+    return `${this.apiUrl}/${productId}/image`;
+  }
+
+  getProductsByCategory(categoria: string){
+    const url = `${this.apiUrl}/${categoria}/public`;
+    return this.http.get<Producto[]>(url);
+  }
 }

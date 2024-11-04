@@ -126,40 +126,38 @@ public class PedidoController {
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-@GetMapping("/pendientes")
-public ResponseEntity<List<PedidoResumenDTO>> getPedidosPendientes() {
-    List<Pedido> pedidosPendientes = pedidoRepository.findByEstado(EstadoPedido.PENDIENTE);
+    @GetMapping("/pendientes")
+    public ResponseEntity<List<PedidoResumenDTO>> getPedidosPendientes() {
+        List<Pedido> pedidosPendientes = pedidoRepository.findByEstado(EstadoPedido.PENDIENTE);
 
-    List<PedidoResumenDTO> pedidosDTO = pedidosPendientes.stream().map(pedido -> {
-        PedidoResumenDTO pedidoDTO = new PedidoResumenDTO();
-        pedidoDTO.setId(pedido.getId());
-        pedidoDTO.setFecha(pedido.getFecha());
-        pedidoDTO.setTotal(pedido.getTotal());
-        pedidoDTO.setDireccion(pedido.getDireccion());
-        pedidoDTO.setEstado(pedido.getEstado());
+        List<PedidoResumenDTO> pedidosDTO = pedidosPendientes.stream().map(pedido -> {
+            PedidoResumenDTO pedidoDTO = new PedidoResumenDTO();
+            pedidoDTO.setId(pedido.getId());
+            pedidoDTO.setFecha(pedido.getFecha());
+            pedidoDTO.setTotal(pedido.getTotal());
+            pedidoDTO.setDireccion(pedido.getDireccion());
+            pedidoDTO.setEstado(pedido.getEstado());
 
-        List<ItemResumenDTO> itemsDTO = pedido.getItems().stream().map(item -> {
-            ItemResumenDTO itemDTO = new ItemResumenDTO();
-            itemDTO.setId(item.getId());
-            itemDTO.setCantidad(item.getCantidad());
-            itemDTO.setPrecio_unitario(item.getPrecio_unitario());
+            List<ItemResumenDTO> itemsDTO = pedido.getItems().stream().map(item -> {
+                ItemResumenDTO itemDTO = new ItemResumenDTO();
+                itemDTO.setId(item.getId());
+                itemDTO.setCantidad(item.getCantidad());
+                itemDTO.setPrecio_unitario(item.getPrecio_unitario());
 
-            ProductoResumenDTO productoResumen = new ProductoResumenDTO();
-            productoResumen.setId(item.getProducto().getId());
-            productoResumen.setNombre(item.getProducto().getNombre());
-            itemDTO.setProducto(productoResumen);
+                ProductoResumenDTO productoResumen = new ProductoResumenDTO();
+                productoResumen.setId(item.getProducto().getId());
+                productoResumen.setNombre(item.getProducto().getNombre());
+                itemDTO.setProducto(productoResumen);
 
-            return itemDTO;
+                return itemDTO;
+            }).collect(Collectors.toList());
+
+            pedidoDTO.setItems(itemsDTO);
+            return pedidoDTO;
         }).collect(Collectors.toList());
 
-        pedidoDTO.setItems(itemsDTO);
-        return pedidoDTO;
-    }).collect(Collectors.toList());
-
-    return ResponseEntity.ok(pedidosDTO);
-}
-
-
+        return ResponseEntity.ok(pedidosDTO);
+    }
     
     
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -173,17 +171,16 @@ public ResponseEntity<List<PedidoResumenDTO>> getPedidosPendientes() {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updatePedido(@PathVariable Long id,@Valid @RequestBody Pedido pedidoDetails) {
+    public ResponseEntity<?> updatePedido(@PathVariable Long id) {
         Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
 
         if (pedidoOpt.isPresent()) {
             Pedido pedidoActualizado = pedidoOpt.get();
 
-            pedidoActualizado.setFecha(pedidoActualizado.getFecha());
-            pedidoActualizado.setTotal(pedidoDetails.getTotal());
-            pedidoActualizado.setDireccion(pedidoDetails.getDireccion());
+            pedidoActualizado.setFecha(LocalDate.now());
+            pedidoActualizado.setTotal(pedidoActualizado.getTotal());
+            pedidoActualizado.setDireccion(pedidoActualizado.getDireccion());
             pedidoActualizado.setEstado(EstadoPedido.ENVIADO);
 
         
@@ -193,7 +190,6 @@ public ResponseEntity<List<PedidoResumenDTO>> getPedidosPendientes() {
             return ResponseEntity.notFound().build();
         }
     }
-    
     
 
 }

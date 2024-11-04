@@ -1,21 +1,27 @@
-    <div class="topbar">
-        <div class="topbar-content">
-            <div class="topbar-left">
-                <span class="topbar-item">Contáctanos (PQRS)</span>
-                <span class="topbar-item">Whatsapp</span>
-                <span class="topbar-item">Localizador de tiendas</span>
+<div class="topbar">
+    <div class="topbar-content">
+        <div class="topbar-left">
+            <span class="topbar-item">Contáctanos (PQRS)</span>
+            <span class="topbar-item">Whatsapp</span>
+            <span class="topbar-item">Localizador de tiendas</span>
+        </div>
+        <div class="topbar-right">
+            <div class="dropdown">
+                <span *ngIf="isAdmin" class="dropdown-toggle">Productos</span>
+                <div class="dropdown-menu">
+                    <a (click)="navigateToAdmin('create-product')">Nuevo Producto</a>
+                    <a (click)="navigateToAdmin('edit-products')">Editar Productos</a>
+                </div>
             </div>
-            <div class="topbar-right">
-                
-                <span *ngIf="isAdmin"><a (click)="navigateToAdmin('panel')">Pedidos</a></span>
-                <span *ngIf="isAdmin"><a (click)="navigateToAdmin('products')">Productos</a></span>
-                <span class="topbar-item" (click)="navigateToLogin()">
-                    {{ isLoggedIn ? 'Cerrar Sesión' : 'Mi Cuenta' }}
-                </span>
-                <img src="assets/images/navbar/user.png" alt="icono" class="user-icon">
-            </div>
+            <span *ngIf="isAdmin"><a (click)="navigateToAdmin('shipments')">Pedidos</a></span>
+            <span class="topbar-item" (click)="navigateToLogin()">
+                {{ isLoggedIn ? 'Cerrar Sesión' : 'Mi Cuenta' }}
+            </span>
+            <img src="assets/images/navbar/user.png" alt="icono" class="user-icon">
         </div>
     </div>
+</div>
+
 
     <nav class="navbar">
         <div class="navbar-content">

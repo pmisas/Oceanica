@@ -17,7 +17,8 @@
               <td><i class="fas fa-eye" (click)="openModal(pedido)" style="cursor: pointer;"></i></td>
               <td style="font-weight: 500;">$COP {{ pedido.total }}</td>
               <td>{{ pedido.fecha | date }}</td>
-              <td><button class="btn btn-danger">Pedido Enviado</button></td>
+              <td><button class="btn btn-danger" (click)="enviarPedido(pedido.id)">Pedido Enviado</button></td>
+
           </tr>
       </tbody>
   </table>

@@ -40,8 +40,15 @@ export class NavbarComponent implements OnInit {
     this.toggleCart.emit(); 
   }
 
-  navigateToAdmin(name: string): void {
-    this.router.navigate([`/admin/${name}`]);
+  
+  navigateToAdmin(route: string): void {
+    if (route === 'create-product') {
+        this.router.navigate(['/admin/new-product']);
+    } else if (route === 'edit-products') {
+        this.router.navigate(['/admin/edit-product']);
+    } else {
+        this.router.navigate([`/admin/${route}`]);
+    }
   }
 
   navigateToCategory(category: string): void {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Producto } from '../../models/producto.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,14 @@ export class ProductService {
 
   getImageUrl(productId: number): string {
     return `${this.apiUrlImage}/${productId}/image`;
+  }
+
+  obtenerProductos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/public`);
+  }
+
+  eliminarProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
 }

@@ -1,0 +1,42 @@
+<div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-id">ID</th>
+          <th class="col-descripcion">Descripción</th>
+          <th class="col-imagen">Imagen</th>
+          <th class="col-nombre">Nombre</th>
+          <th class="col-precio">Precio</th>
+          <th class="col-stock">Stock</th>
+          <th class="col-accion">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosPaginados">
+          <td>{{ producto.id }}</td>
+          <td><textarea [(ngModel)]="producto.descripcion" maxlength="500"></textarea></td>
+          <td>
+            <img [src]="getImageUrl(producto.id)" alt="{{ producto.nombre }}" class="product-image" />
+          </td>
+          <td><textarea [(ngModel)]="producto.nombre" maxlength="100" style="height: 10%;"></textarea></td>
+          <td><input type="number" [(ngModel)]="producto.precio" /></td>
+          <td><input type="number" [(ngModel)]="producto.stock" /></td>
+          <td>
+            <button class="btn btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Paginación -->
+    <div class="pagination">
+        <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+          Anterior
+        </button>
+        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+        <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
+          Siguiente
+        </button>
+    </div>
+  </div>
+  

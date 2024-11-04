@@ -1,0 +1,73 @@
+/* CSS para ajustar los tamaños de las columnas */
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .col-id {
+    width: 5%;
+  }
+  
+  .col-descripcion {
+    width: 30%;
+    height: auto;
+  }
+  
+  .col-imagen {
+    width: 12%;
+  }
+  
+  .col-nombre {
+    width: 20%;
+  }
+  
+  .col-precio,
+  .col-stock {
+    width: 5%;
+  }
+  
+  .col-accion {
+    width: 5%;
+  }
+  
+  /* Ajustar textarea e inputs */
+  textarea,
+  input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    resize: none;
+  }
+  
+  textarea {
+    height: 150px;
+    overflow-y: auto;
+  }
+  
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #ddd;
+    box-shadow: none;
+  }
+  
+  /* Ajuste del tamaño de la imagen */
+  .product-image {
+    width: 140px;
+    height: auto;
+  }
+  
+  /* Ajustes de estilo para el botón */
+  .btn-danger {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  

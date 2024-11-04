@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { PedidoService } from '../../../../shared/services/shipment/pedido.service';
+import { PedidoService } from '../../../../shared/services/pedido/pedido.service';
 
 @Component({
   selector: 'app-shipments',
@@ -53,5 +53,16 @@ export class ShipmentsComponent implements OnInit {
   closeModal(): void {
     this.showModal = false; 
     this.selectedPedido = null;
+  }
+
+  enviarPedido(id: number): void {
+    this.pedidoService.enviarPedido(id, this.token!).subscribe(
+      () => {
+        this.pedidos = this.pedidos.filter(pedido => pedido.id !== id);
+      },
+      (error) => {
+        console.error('Error al cambiar el estado del pedido:', error);
+      }
+    );
   }
 }

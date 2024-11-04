@@ -1,1 +1,48 @@
-<p>products works!</p>
+<div class="product-form-container">
+    <form (ngSubmit)="createProduct()" #productForm="ngForm">
+        <div>
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" id="nombre" [(ngModel)]="product.nombre" name="nombre" required />
+        </div>
+
+        <div class="price-stock-container">
+            <div class="price-stock-item">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" [(ngModel)]="product.precio" name="precio" required />
+            </div>
+            <div class="price-stock-item">
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" [(ngModel)]="product.stock" name="stock" required />
+            </div>
+        </div>
+
+        <div>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" [(ngModel)]="product.descripcion" name="descripcion" required></textarea>
+        </div>
+
+        <div>
+            <label>Categorías:</label>
+            <div class="categories-container">
+                <div class="category-item" *ngFor="let category of availableCategories">
+                    {{ category }}
+                    <input
+                        type="checkbox"
+                        [value]="category"
+                        (change)="onCategoryChange($event)"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" style="background-color: rgb(56, 55, 55);">Crear Producto</button>
+    </form>
+
+    <form *ngIf="productId" (ngSubmit)="uploadImage()" #imageForm="ngForm" style="margin-top: 30px;">
+        <div>
+            <label for="image">Subir Imagen:</label>
+            <input type="file" id="image" (change)="onFileSelected($event)" required />
+        </div>
+        <button type="submit" style="background-color: rgb(56, 55, 55);">Subir Imagen</button>
+    </form>
+</div>

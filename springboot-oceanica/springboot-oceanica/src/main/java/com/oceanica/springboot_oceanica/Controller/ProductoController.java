@@ -21,8 +21,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -79,13 +81,15 @@ public class ProductoController {
         Producto nuevoProducto = productoRepository.save(producto);
         return ResponseEntity.ok(nuevoProducto);
     }
-
+    
     @PostMapping("/{id}/uploadImage")
-    public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
         Optional<Producto> productoOpt = productoRepository.findById(id);
 
         if (!productoOpt.isPresent()) {
-            return ResponseEntity.status(404).body("Producto no encontrado");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Producto no encontrado");
+            return ResponseEntity.status(404).body(errorResponse);
         }
 
         Producto producto = productoOpt.get();
@@ -100,13 +104,22 @@ public class ProductoController {
             producto.setImage(fileName);
             productoRepository.save(producto);
 
-            return ResponseEntity.ok("Imagen subida exitosamente");
+            Map<String, String> successResponse = new HashMap<>();
+            successResponse.put("message", "Imagen subida exitosamente");
+            successResponse.put("fileName", fileName); // Puedes incluir el nombre del archivo si lo necesitas en el frontend
+
+            return ResponseEntity.ok(successResponse);
 
         } catch (IOException e) {
             logger.error("Error al guardar la imagen en el sistema de archivos", e);
-            return ResponseEntity.status(500).body("Error al guardar la imagen");
+
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error al guardar la imagen");
+
+            return ResponseEntity.status(500).body(errorResponse);
         }
     }
+
 
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {

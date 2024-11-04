@@ -23,13 +23,13 @@
 
 .topbar-item {
     margin: 0 10px;
-    cursor: pointer;
 }
 
 .topbar-left,
 .topbar-right {
     display: flex;
     gap: 15px;
+    cursor: pointer;
 }
 
 /* Envio-bar */
@@ -79,6 +79,7 @@
     list-style: none;
     font-size: 14px;
     padding: 20px 30px 0 100px;
+    cursor: pointer;
 }
 
 .nav-links li a {

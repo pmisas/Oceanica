@@ -1,3 +1,4 @@
+<!-- Barra Superior -->
 <div class="topbar">
     <div class="topbar-content">
         <div class="topbar-left">
@@ -6,16 +7,25 @@
             <span class="topbar-item">Localizador de tiendas</span>
         </div>
         <div class="topbar-right">
-            <span class="topbar-item" (click)="navigateToLogin()">Mi Cuenta</span>
+            
+            <!-- Opciones de administración, solo visibles para administradores -->
+            <span *ngIf="isAdmin"><a (click)="navigateToAdmin('panel')">Pedidos</a></span>
+            <span *ngIf="isAdmin"><a (click)="navigateToAdmin('products')">Productos</a></span>
+            <span class="topbar-item" (click)="navigateToLogin()">
+                {{ isLoggedIn ? 'Cerrar Sesión' : 'Mi Cuenta' }}
+            </span>
         </div>
     </div>
 </div>
 
+<!-- Barra de Navegación Principal -->
 <nav class="navbar">
     <div class="navbar-content">
         <div class="logo">
-            <img src="assets/images/navbar/logo.png" alt="..." (click)="navigateToCategory('')">
+            <img src="assets/images/navbar/logo.png" alt="Logo" (click)="navigateToCategory('')">
         </div>
+        
+        <!-- Enlaces principales de navegación -->
         <ul class="nav-links">
             <li><a (click)="navigateToCategory('buceo')">BUCEO</a></li>
             <li><a (click)="navigateToCategory('ropa')">ROPA</a></li>
@@ -25,16 +35,15 @@
             <li><a (click)="navigateToCategory('playa')">PLAYA</a></li>
             <li><a (click)="navigateToCategory('piscina')">PISCINA</a></li>
         </ul>
+
+        <!-- Iconos de la barra de navegación -->
         <div class="navbar-icons">
-            <i class="fas fa-search"></i>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar" />
-            </div>
-            <i class="fa-regular fa-heart"></i>
             <i class="fas fa-shopping-cart"></i>
         </div>
     </div>
 </nav>
+
+<!-- Barra de Envío Gratis -->
 <div class="envio-bar">
     ENVÍO GRATIS POR COMPRAS MAYORES A $100.000
 </div>

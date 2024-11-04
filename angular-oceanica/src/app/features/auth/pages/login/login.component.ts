@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -26,12 +26,11 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe(
       response => {
         console.log('Login exitoso', response);
-        this.router.navigate(['/admin/panel']);
+        this.router.navigate(['']);
       },
       error => {
         this.loginError = 'Email y/o contraseña incorrectos';
       }
     );
   }
-  
 }

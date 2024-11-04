@@ -116,17 +116,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
-}
-
-.fa-search:before {
-    padding-left: 100px;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    border-bottom: 1px solid #333;
+    margin-left: auto; /* Alinea los íconos a la derecha */
 }
 
 .search-bar input {
@@ -136,13 +126,10 @@
     width: 140px;
 }
 
-i.fas.fa-shopping-cart::before {
-    padding-left: 20px;
-}
-
 .navbar-icons i {
     font-size: 22px;
     position: relative;
+    margin-left: 70px;
 }
 
 .navbar-icons .fa-regular.fa-heart::after,
@@ -158,6 +145,7 @@ i.fas.fa-shopping-cart::before {
     font-size: 8px;
     font-weight: 100;
 }
+
 
 .admin-bar {
     background-color: #333;

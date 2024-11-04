@@ -1,7 +1,9 @@
+// src/app/features/category/pages/category/category.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Producto } from '../../../../shared/models/producto.model';
 import { ProductService } from '../../../../shared/services/product/product.service';
+import { CartService } from '../../../../shared/services/cart/cart.service';
+import { Producto } from '../../../../shared/models/producto.model';
 
 @Component({
   selector: 'app-category',
@@ -13,9 +15,12 @@ export class CategoryComponent implements OnInit {
   productos: Producto[] = [];
   bannerImage: string = '';
 
+  selectedProduct: Producto | null = null;
+
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +63,21 @@ export class CategoryComponent implements OnInit {
       case 'mantenimiento':
         this.bannerImage = 'assets/images/baner/seguridad_baner.jpg';
         break;
+      default:
+        this.bannerImage = 'assets/images/baner/default_banner.jpg';
+        break;
     }
   }
 
   getImageUrl(productId: number): string {
-    // Construye la URL de la imagen usando el ID del producto y el endpoint específico
-    return `http://localhost:8081/api/productos/${productId}/image`;
+    return this.productService.getImageUrl(productId); // Usa el servicio para obtener la URL de la imagen
+  }
+
+  quickBuy(product: Producto): void {
+    this.selectedProduct = product;
+  }
+
+  closeQuickView(): void {
+    this.selectedProduct = null;
   }
 }

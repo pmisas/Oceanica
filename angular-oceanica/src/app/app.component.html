@@ -1,5 +1,6 @@
-<app-navbar></app-navbar>
-    <div>
-        <router-outlet></router-outlet>
-    </div>
+<app-navbar (toggleCart)="toggleCart()"></app-navbar>
+<app-cart [showCart]="showCart" (closeCart)="closeCart()"></app-cart>
+<div>
+    <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>

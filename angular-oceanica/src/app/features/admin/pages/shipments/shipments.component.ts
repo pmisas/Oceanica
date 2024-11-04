@@ -13,7 +13,7 @@ export class ShipmentsComponent implements OnInit {
   
   token: string | null = '';
   pedidos: any[] = [];
-  showModal: boolean = false;  // Asegúrate de que el modal comienza cerrado
+  showModal: boolean = false;  
   selectedPedido: any = null;
 
   constructor(private pedidoService: PedidoService) {}
@@ -47,11 +47,11 @@ export class ShipmentsComponent implements OnInit {
 
   openModal(pedido: any): void {
     this.selectedPedido = pedido;
-    this.showModal = true;  // Abre el modal
+    this.showModal = true;  
   }
 
   closeModal(): void {
-    this.showModal = false;  // Cierra el modal
+    this.showModal = false; 
     this.selectedPedido = null;
   }
 }

@@ -1,4 +1,27 @@
-/* Topbar */
+/*
+.navbar-icons .fa-regular.fa-heart::after,
+.navbar-icons .fas.fa-shopping-cart::after {
+    content: '1';
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    background-color: #f95f24;
+    color: #fff;
+    border-radius: 100%;
+    padding: 2px 5px;
+    font-size: 8px;
+    font-weight: 100;
+}
+*/
+
+.user-icon {
+    width: 16px;  /* Ajusta el tamaño de la imagen */
+    height: 16px;
+    margin-top: 2px;
+    margin-left: -12px; /* Espacio entre el ícono y el texto */
+    vertical-align: middle; /* Alineación vertical */
+}
+
 .topbar {
     font-size: small;
     background-color: #d8d4d4;
@@ -9,11 +32,11 @@
 }
 
 .topbar + .navbar {
-    top: 30px; /* Ajusta la posición de la navbar debajo de la topbar */
+    top: 30px; 
 }
 
 .topbar-content {
-    max-width: 1350px; /* Ancho máximo centrado */
+    max-width: 1120px; 
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -32,7 +55,6 @@
     cursor: pointer;
 }
 
-/* Envio-bar */
 .envio-bar {
     margin-top: 100px;
     text-align: center;
@@ -45,7 +67,6 @@
     transition: top 0.3s, opacity 0.3s;
 }
 
-/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -53,8 +74,8 @@
     z-index: 1000;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: height 0.3s; /* Transición para el cambio de altura */
-    height: 100px; /* Altura original */
+    transition: height 0.3s; 
+    height: 100px; 
 }
 
 .navbar-content {
@@ -72,7 +93,6 @@
     cursor: pointer;
 }
 
-/* Estilos de enlaces en el navbar */
 .nav-links {
     display: flex;
     gap: 20px;
@@ -94,7 +114,6 @@
     color: #0a376e61;
 }
 
-/* Efecto de barra transparente */
 .nav-links li a::after {
     content: "";
     position: absolute;
@@ -112,12 +131,18 @@
     background-color: #0a376e5d;
 }
 
-/* Iconos en la barra de navegación */
 .navbar-icons {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-left: auto; /* Alinea los íconos a la derecha */
+    margin-left: 90px;
+    cursor: pointer;
+}
+
+.cart-icon {
+    width: 30px; 
+    height: auto;
 }
 
 .search-bar input {
@@ -131,22 +156,22 @@
     font-size: 22px;
     position: relative;
     margin-left: 70px;
+    cursor: pointer;
 }
 
-.navbar-icons .fa-regular.fa-heart::after,
-.navbar-icons .fas.fa-shopping-cart::after {
-    content: '1';
+/* Nueva clase para mostrar el contador del carrito */
+.cart-count {
     position: absolute;
     top: -5px;
     right: -6px;
     background-color: #f95f24;
     color: #fff;
-    border-radius: 100%;
+    border-radius: 50%;
     padding: 2px 5px;
-    font-size: 8px;
-    font-weight: 100;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
 }
-
 
 .admin-bar {
     background-color: #333;
@@ -168,4 +193,3 @@
 .admin-bar-item:hover {
     background-color: #555;
 }
-

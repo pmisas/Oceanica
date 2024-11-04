@@ -24,9 +24,9 @@
 
 .product-form-container input:focus,
 .product-form-container textarea:focus {
-    outline: none; /* Elimina el borde de enfoque negro */
-    border-color: #007bff; /* Cambia el color del borde cuando está en foco */
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3); /* Añade un sutil efecto de sombra */
+    outline: none; 
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3); 
 }
 
 .product-form-container button {

@@ -1,4 +1,3 @@
-/* Footer */
 footer {
   background-color: #4a4a4a;
   font-size: 14px;
@@ -14,7 +13,7 @@ footer {
   padding: 0;
   max-width: 1600px; 
   z-index: 1;
-  border-bottom: 5px solid #0a376e; /* Barra azul debajo */
+  border-bottom: 5px solid #0a376e; 
 }
 
 .footer-bottom{
@@ -29,7 +28,6 @@ footer {
   color: #fff;
 }
 
-/* Contenedor Central */
 .footer-content {
   max-width: 1200px; 
   margin: 0 auto;
@@ -39,7 +37,6 @@ footer {
   align-items: center;
 }
 
-/* Newsletter */
 .newsletter-section {
   background-color: #fff;
   display: flex;
@@ -111,7 +108,6 @@ footer {
   background-color: #0a376e;
 }
 
-/* Links del Footer */
 .footer-links {
   display: flex;
   justify-content: space-between;
@@ -150,7 +146,6 @@ footer {
   color: #fff;
 }
 
-/* Información de Derechos */
 .footer-bottom {
   text-align: center;
   margin-top: 30px;

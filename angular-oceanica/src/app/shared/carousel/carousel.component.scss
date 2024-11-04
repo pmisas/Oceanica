@@ -81,9 +81,9 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centra el texto en el botón */
+    justify-content: center; 
     height: 35px;
-    background-color: #302c2c; /* Fondo negro */
+    background-color: #302c2c;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -94,10 +94,10 @@ body {
 
 .quick-buy-btn i {
     position: absolute;
-    right: 0; /* Mantiene el ícono en el extremo derecho */
+    right: 0;
     top: 50%;
-    transform: translateY(-50%); /* Centra el ícono verticalmente */
-    background-color: #ee3224; /* Fondo rojo para el ícono */
+    transform: translateY(-50%); 
+    background-color: #ee3224;
     padding: 5px;
     height: 35px;
     width: 35px;
@@ -106,10 +106,10 @@ body {
 }
 
 .quick-buy-btn:hover {
-    background-color: #ee3224; /* Cambia el fondo al hacer hover */
+    background-color: #ee3224;
 
     i{
-        background-color: #ffffff; /* Cambia el fondo al hacer hover */
+        background-color: #ffffff; 
     }
 }
 

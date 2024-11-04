@@ -1,18 +1,21 @@
-<!-- Banner de categoría -->
+
 <div class="category-banner" [ngStyle]="{'background-image': 'url(' + bannerImage + ')'}"></div>
 
-<!-- Contenedor de productos -->
+<app-modal *ngIf="selectedProduct"
+           [product]="selectedProduct"
+           (close)="closeQuickView()">
+</app-modal>
+
 <div class="products-container">
   <div *ngFor="let producto of productos" class="product-card">
     <div class="product-image">
-      <!-- URL de imagen generada mediante getImageUrl -->
       <img [src]="getImageUrl(producto.id)" [alt]="producto.nombre" />
     </div>
-    <button class="quick-buy-btn">
+    <button class="quick-buy-btn" (click)="quickBuy(producto)">
       COMPRA RÁPIDA
-      <i class="fa-solid fa-search"></i>
+      <i class="fa-solid fa-cart-plus"></i>
     </button>
     <p class="product-name">{{ producto.nombre }}</p>
-    <p class="product-price">${{ producto.precio | currency:'COP' }}</p>
+    <p class="product-price">{{ producto.precio | currency:'COP' }}</p>
   </div>
 </div>

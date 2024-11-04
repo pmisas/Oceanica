@@ -1,0 +1,32 @@
+<ng-container>
+    <div class="modalt">
+        <div class="modalt-content">
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" (click)="closeModal()">
+                <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"/>
+            </svg>
+
+            <div class="modalt-body">
+                <div class="left-section">  
+                    <h6 class="product-name">{{ product.nombre }}</h6>
+                    <p class="product-price">{{ product.precio | currency: '$ ' }}</p>
+                    <div class="product-description-container">
+                        <p class="product-description">{{ product.descripcion }}</p>
+                    </div>
+                </div>
+                <div class="center-section">
+                    <img [src]="getImageUrl(product.id)" alt="{{ product.nombre }}" class="product-image" />
+                </div>
+                <div class="right-section">
+                    <p class="quantity-label">CANTIDAD</p>
+                    <div class="quantity-container">
+                        <button (click)="decreaseQuantity()">-</button>
+                        <span>{{ quantity }}</span>
+                        <button (click)="increaseQuantity()">+</button>
+                    </div>
+                    <p class="total-price">Total: {{ (product.precio * quantity) | currency: '$ ' }}</p>
+                    <button class="add-to-cart-btn" (click)="addToCart()">Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

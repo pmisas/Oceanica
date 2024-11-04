@@ -16,4 +16,10 @@ export class ProductService {
     return this.http.get<Producto[]>(url);
   }
 
+  private apiUrlImage = 'http://localhost:8081/api/productos';
+
+  getImageUrl(productId: number): string {
+    return `${this.apiUrlImage}/${productId}/image`;
+  }
+
 }

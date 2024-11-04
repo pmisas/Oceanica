@@ -1,7 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+// src/app/components/navbar/navbar.component.ts
+import { Component, EventEmitter, Output, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../services/cart/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,8 +15,11 @@ import { CommonModule } from '@angular/common';
 export class NavbarComponent implements OnInit {
   isAdmin: boolean = false;
   isLoggedIn: boolean = false;
+  cartCount: number = 0; 
 
-  constructor(private router: Router, private authService: AuthService) {}
+  @Output() toggleCart = new EventEmitter<void>(); 
+
+  constructor(private router: Router, private authService: AuthService, private cartService: CartService) {}
 
   ngOnInit(): void {
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -23,6 +28,16 @@ export class NavbarComponent implements OnInit {
     this.authService.isAdmin$.subscribe((admin) => {
       this.isAdmin = admin;
     });
+
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartCount = Array.isArray(items) ? items.length : 0;
+    });
+  
+    this.onWindowScroll();
+  }
+
+  openCart(): void {
+    this.toggleCart.emit(); 
   }
 
   navigateToAdmin(name: string): void {

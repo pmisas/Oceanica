@@ -1,5 +1,14 @@
-# Usa una imagen de Java (como openjdk) y construye la aplicación
-FROM openjdk:17-jdk
-COPY target/springboot-oceanica-0.0.1-SNAPSHOT.jar /app/oceanica-backend.jar
+# Usamos una imagen base de Java 17
+FROM openjdk:17-jdk-slim
+
+# Establecemos el directorio de trabajo
 WORKDIR /app
-ENTRYPOINT ["java", "-jar", "oceanica-backend.jar"]
+
+# Copiamos el archivo JAR generado por Maven al contenedor
+COPY target/springboot-oceanica-0.0.1-SNAPSHOT.jar app.jar
+
+# Exponemos el puerto 8080
+EXPOSE 8081
+
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]

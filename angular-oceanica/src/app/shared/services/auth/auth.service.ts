@@ -15,7 +15,7 @@ export class AuthService {
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
   isAdmin$ = this.isAdminSubject.asObservable();
 
-  private apiUrl = 'http://localhost:8081/api/auth/login';
+  private apiUrl = 'http://localhost:8080/api/auth/login';
 
   constructor(private http: HttpClient) {
     // Configura el estado basado en el token al iniciar el servicio

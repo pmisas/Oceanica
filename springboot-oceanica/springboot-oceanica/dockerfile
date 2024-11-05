@@ -1,14 +1,20 @@
-# Usamos una imagen base de Java 17
-FROM openjdk:17-jdk-slim
+# Usa una imagen de Maven para compilar el proyecto
+FROM maven:3.8.4-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Establecemos el directorio de trabajo
+# Usa una imagen de JDK slim para ejecutar el proyecto
+FROM openjdk:17-jdk-slim
 WORKDIR /app
 
-# Copiamos el archivo JAR generado por Maven al contenedor
-COPY target/springboot-oceanica-0.0.1-SNAPSHOT.jar app.jar
+# Instala curl (opcional para pruebas de conectividad)
+RUN apt-get update && apt-get install -y curl
 
-# Exponemos el puerto 8080
-EXPOSE 8081
+COPY --from=build /app/target/*.jar app.jar
+
+# Expone el puerto de la aplicación
+EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -26,7 +26,7 @@ export class ModalComponent implements OnInit, OnDestroy{
   }
 
   getImageUrl(productId: number): string {
-    return `http://localhost:8081/api/productos/${productId}/image`;
+    return `http://localhost:8080/api/productos/${productId}/image`;
   }
 
   increaseQuantity(): void {

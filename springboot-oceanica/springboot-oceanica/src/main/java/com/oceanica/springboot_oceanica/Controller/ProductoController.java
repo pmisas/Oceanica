@@ -138,6 +138,7 @@ public class ProductoController {
 
         try {
             byte[] imageBytes = Files.readAllBytes(imagePath);
+            logger.info(imagePath.getFileName().toString());
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_JPEG)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imagePath.getFileName().toString() + "\"")

@@ -6,13 +6,58 @@ services:
     image: postgres:16
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./Infraestructure/init:/docker-entrypoint-initdb.d
+      - ./springboot-oceanica/springboot-oceanica/Infraestructure/init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: oceanicadb
       POSTGRES_USER: paula
     ports:
       - "5434:5432"
+    networks:
+      - backend-network
+
+  backend:
+    container_name: oceanica-backend
+    build:
+      context: ./springboot-oceanica/springboot-oceanica/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/oceanicadb
+      SPRING_DATASOURCE_USERNAME: paula
+      SPRING_DATASOURCE_PASSWORD: 123
+    volumes:
+      - ./springboot-oceanica/springboot-oceanica/uploads:/app/uploads  
+    depends_on:
+      - db
+    networks:
+      - backend-network
+      - frontend-network
+
+  frontend:
+    container_name: oceanica-frontend
+    build:
+      context: ./angular-oceanica  
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - NG_CLI_ANALYTICS=false
+    ports:
+      - "4200:4200"  
+    volumes:
+      - ./angular-oceanica:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    networks:
+      - frontend-network
+
+networks:
+  backend-network:
+    driver: bridge
+  frontend-network:
+    driver: bridge
 
 volumes:
   postgres_data:

@@ -22,7 +22,7 @@ export class ProductsComponent {
   productId: string | null = null;
   selectedFile: File | null = null;
 
-  private apiUrl = 'http://localhost:8081/api/productos';
+  private apiUrl = 'http://localhost:8080/api/productos';
   private token = sessionStorage.getItem('authToken') || '';
 
   constructor(private http: HttpClient) {}

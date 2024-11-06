@@ -73,14 +73,17 @@
         </tbody>
     </table>
 
-    <!-- Paginación -->
-    <div class="pagination">
-        <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
-            Anterior
-        </button>
-        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-        <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
-            Siguiente
-        </button>
+    <div class="pagination-container">
+        <div class="pagination">
+            <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
+                Previous
+            </button>
+            <span>{{ paginaActual }}</span>
+            <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">
+                Next
+            </button>
+        </div>
     </div>
+    
+    
 </div>

@@ -215,3 +215,59 @@
 }
 
 
+/* Eliminar flechas en campos de número en Chrome, Safari y Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Eliminar flechas en campos de número en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center; /* Centra la paginación en el contenedor */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+.pagination button {
+  background-color: #ffffff; /* Fondo blanco */
+  color: #333333; /* Color del texto */
+  border: 1px solid #ddd; /* Borde gris claro */
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+}
+
+.pagination button:disabled {
+  color: #cccccc; /* Texto gris claro cuando está deshabilitado */
+  border-color: #cccccc;
+  cursor: default;
+}
+
+.pagination span {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #333333; /* Color de fondo del número de página */
+  color: #ffffff; /* Color de texto blanco */
+  font-weight: bold;
+  border-radius: 5px;
+}
+

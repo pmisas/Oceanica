@@ -36,7 +36,6 @@ export class EditProductComponent implements OnInit {
   // Almacenará las categorías seleccionadas por producto
   categoriasSeleccionadas: { [key: number]: (Categoria | string)[] } = {};
 
-
   constructor(private productoService: ProductService) {}
 
   ngOnInit(): void {
@@ -46,43 +45,44 @@ export class EditProductComponent implements OnInit {
   cargarProductos(): void {
     this.productoService.obtenerProductos().subscribe((data: Producto[]) => {
       this.productos = data;
+      this.productosFiltrados = [...this.productos]; // Inicializa `productosFiltrados` con todos los productos
       this.productos.forEach(producto => {
         this.categoriasSeleccionadas[producto.id] = producto.categorias || [];
       });
       this.actualizarPaginacion();
     });
-    
   }
-  
+
   onFilterChange(): void {
     this.selectedCategory = '';
     this.selectedId = null;
   }
 
   filtrar(): void {
-    console.log(this.selectedFilter, this.selectedCategory)
+    console.log(this.selectedFilter, this.selectedCategory);
     if (this.selectedFilter === 'todos') {
       this.productosFiltrados = [...this.productos];
+      this.paginaActual = 1; // Reiniciar a la primera página al aplicar un filtro
       this.actualizarPaginacion();
-    } else if (this.selectedFilter === 'categoria' && this.selectedCategory!= null) {
+    } else if (this.selectedFilter === 'categoria' && this.selectedCategory) {
       // Llamada al servicio para obtener productos por categoría
       this.productoService.getProductsByCategory(this.selectedCategory).subscribe((data: Producto[]) => {
         this.productosFiltrados = data;
-        console.log(data)
+        this.paginaActual = 1; // Reiniciar a la primera página al aplicar un filtro
         this.actualizarPaginacion();
       });
     } else if (this.selectedFilter === 'id' && this.selectedId !== null) {
       this.productosFiltrados = this.productos.filter(producto => producto.id === this.selectedId);
+      this.paginaActual = 1; // Reiniciar a la primera página
       this.actualizarPaginacion();
     }
   }
-  
 
   actualizarPaginacion(): void {
-    this.totalPaginas = Math.ceil(this.productos.length / this.itemsPorPagina);
+    this.totalPaginas = Math.ceil(this.productosFiltrados.length / this.itemsPorPagina);
     const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
     const fin = inicio + this.itemsPorPagina;
-    this.productosPaginados = this.productos.slice(inicio, fin);
+    this.productosPaginados = this.productosFiltrados.slice(inicio, fin);
   }
 
   cambiarPagina(nuevaPagina: number): void {
@@ -94,6 +94,7 @@ export class EditProductComponent implements OnInit {
     this.productoService.eliminarProducto(id).subscribe(() => {
       this.productos = this.productos.filter((producto) => producto.id !== id);
       delete this.categoriasSeleccionadas[id];
+      this.productosFiltrados = [...this.productos]; // Actualiza el filtro después de eliminar
       this.actualizarPaginacion();
     });
   }
@@ -109,23 +110,21 @@ export class EditProductComponent implements OnInit {
     return this.productoService.getImageUrl(productId);
   }
 
-  
   isSelected(productoId: number, categoria: string): boolean {
     const seleccionadas = this.categoriasSeleccionadas[productoId];
-    const estaSeleccionada = seleccionadas?.some(cat => 
+    const estaSeleccionada = seleccionadas?.some(cat =>
       typeof cat === 'string' ? cat === categoria : cat.nombre === categoria
     ) || false;
     return estaSeleccionada;
   }
-  
-  
+
   toggleCategory(productoId: number, categoria: string): void {
     const selectedCategories = this.categoriasSeleccionadas[productoId] || [];
-  
-    const index = selectedCategories.findIndex(cat => 
+
+    const index = selectedCategories.findIndex(cat =>
       typeof cat === 'string' ? cat === categoria : cat.nombre === categoria
     );
-  
+
     if (index !== -1) {
       this.categoriasSeleccionadas[productoId] = [
         ...selectedCategories.slice(0, index),
@@ -138,8 +137,4 @@ export class EditProductComponent implements OnInit {
       ];
     }
   }
-  
-
-  
-  
 }

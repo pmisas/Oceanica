@@ -15,7 +15,7 @@
         </div>
         <div class="cart-item-details">
           <p class="product-name">{{ item.nombre }}</p>
-          <p class="product-price">{{ item.precio | currency:'COP' }}</p>
+          <p class="product-price">{{ item.precio | currency:'COP ' }}</p>
           <p class="product-quantity">Cantidad: {{ item.cantidad }}</p>
         </div>
         <button (click)="removeItem(i)" class="remove-item-btn">

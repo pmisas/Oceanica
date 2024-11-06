@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ngx-image-cropper": "^8.1.0"
+  }
+}

@@ -40,6 +40,17 @@ export class CartService {
     this.cartItems.next([...currentItems]);
   }
 
+  updateQuantity(index: number, change: number): void {
+    const currentItems = this.cartItems.value;
+    if (currentItems[index]) {
+      currentItems[index].cantidad += change;
+      if (currentItems[index].cantidad <= 0) {
+        currentItems.splice(index, 1);
+      }
+      this.cartItems.next([...currentItems]);
+    }
+  }
+
   clearCart() {
     this.cartItems.next([]);
   }

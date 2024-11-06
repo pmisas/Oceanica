@@ -26,8 +26,8 @@
             <label>Categorías:</label>
             <div class="categories-container">
                 <div class="category-item" *ngFor="let category of availableCategories">
-                    <input type="checkbox" [value]="category" (change)="onCategoryChange($event)" />
                     {{ category }}
+                    <input type="checkbox" [value]="category" (change)="onCategoryChange($event)" />
                 </div>
             </div>
         </div>

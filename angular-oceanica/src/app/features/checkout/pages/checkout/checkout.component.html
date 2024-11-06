@@ -1,0 +1,39 @@
+<div class="checkout-container">
+  <h2 class="checkout-title">RESUMEN DE LA COMPRA</h2>
+  <table class="checkout-table">
+    <thead>
+      <tr>
+        <th class="product-column">PRODUCTO</th>
+        <th class="shipping-column">ENVÍO</th>
+        <th>PRECIO</th>
+        <th class="quantity-column">CANTIDAD</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of (cartItems$ | async); let i = index">
+        <td class="product-info">
+          <img [src]="getImageUrl(item.id)" alt="Imagen del producto" class="product-image" />
+          <span>{{ item.nombre }}</span>
+        </td>
+        <td class="shipping-info">Hasta 5 días hábiles</td>
+        <td>{{ item.precio | currency:'COP' }}</td>
+        <td>
+          <div class="quantity-control">
+            <button (click)="decreaseQuantity(i)">-</button>
+            <input type="number" [value]="item.cantidad" readonly />
+            <button (click)="increaseQuantity(i)">+</button>
+          </div>
+        </td>
+        <td>{{ (item.precio * item.cantidad) | currency:'COP' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="checkout-summary">
+    <p>Subtotal: {{ calculateSubtotal() | currency:'COP' }}</p>
+    <p>Gastos del envío: Gratis</p>
+    <p class="total">Total: {{ calculateTotal() | currency:'COP' }}</p>
+    <button class="checkout-button">FINALIZAR COMPRA</button>
+  </div>
+</div>

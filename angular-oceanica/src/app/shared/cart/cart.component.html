@@ -1,37 +1,49 @@
-<ng-container *ngIf="showCart">
+<ng-container *ngIf="showCart && (cartItems$ | async) as cartItems">
   <div class="modalt"></div>
   <div class="modalt-content">
-    <div class="modalt-header">
-      <h5 class="modal-title">Resumen de Compra</h5>
+    <div class="modalt-container">
+      <ng-container *ngIf="cartItems && cartItems.length > 0; else emptyCart">
+        <div class="cart-header">
+          <h5 class="modal-title">Resumen de Compra</h5>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" (click)="onCloseCart()">
+            <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"/>
+          </svg>
+        </div>
+
+        <div *ngFor="let item of cartItems; let i = index" class="cart-item">
+          <div class="cart-item-image">
+            <img [src]="getImageUrl(item.id)" alt="Imagen del producto" />
+          </div>
+          <div class="cart-item-details">
+            <p class="product-name">{{ item.nombre }}</p>
+            <p class="product-price">{{ item.precio | currency:'COP ' }}</p>
+            <p class="product-quantity">Cantidad: {{ item.cantidad }}</p>
+          </div>
+          <button (click)="removeItem(i)" class="remove-item-btn">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <div class="cart-summary">
+          <p class="shipping-info">ENVÍO GRATIS POR COMPRAS MAYORES A $200.000</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%;"></div>
+          </div>
+          <p class="total-price">TOTAL: $COP {{ calculateTotal() }}</p>
+          <button class="checkout-btn" (click)="goToCheckout()">Ir a Pagar</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #emptyCart>
+  <div class="modalt-container">
+    <div class="cart-header">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" (click)="onCloseCart()">
         <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"/>
       </svg>
     </div>
-    
-    <div class="modalt-container">
-      <div *ngFor="let item of (cartItems$ | async); let i = index" class="cart-item">
-        <div class="cart-item-image">
-          <img [src]="getImageUrl(item.id)" alt="Imagen del producto" />
-        </div>
-        <div class="cart-item-details">
-          <p class="product-name">{{ item.nombre }}</p>
-          <p class="product-price">{{ item.precio | currency:'COP ' }}</p>
-          <p class="product-quantity">Cantidad: {{ item.cantidad }}</p>
-        </div>
-        <button (click)="removeItem(i)" class="remove-item-btn">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-      
-      <!-- Indicador de envío y total -->
-      <div class="cart-summary">
-        <p class="shipping-info">ENVÍO GRATIS POR COMPRAS MAYORES A $200.000</p>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 100%;"></div>
-        </div>
-        <p class="total-price">TOTAL: $COP {{ calculateTotal()}}</p>
-        <button class="checkout-btn">Ir a Pagar</button>
-      </div>
-    </div>
+    <p class="empty-cart-message">NO TIENES PRODUCTOS EN EL CARRITO</p>
   </div>
-</ng-container>
+</ng-template>

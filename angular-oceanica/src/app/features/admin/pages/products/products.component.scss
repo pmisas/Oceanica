@@ -24,9 +24,9 @@
 
 .product-form-container input:focus,
 .product-form-container textarea:focus {
-    outline: none; 
+    outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3); 
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
 .product-form-container button {
@@ -66,5 +66,17 @@
 
 .category-item input[type="checkbox"] {
     margin-right: 5px;
-    transform: translateX(-2px);
+}
+
+.image-preview-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
 }

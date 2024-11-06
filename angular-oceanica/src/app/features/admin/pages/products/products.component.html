@@ -1,4 +1,5 @@
 <div class="product-form-container">
+    <!-- Formulario de creación de producto -->
     <form (ngSubmit)="createProduct()" #productForm="ngForm">
         <div>
             <label for="nombre">Nombre del Producto:</label>
@@ -25,24 +26,25 @@
             <label>Categorías:</label>
             <div class="categories-container">
                 <div class="category-item" *ngFor="let category of availableCategories">
+                    <input type="checkbox" [value]="category" (change)="onCategoryChange($event)" />
                     {{ category }}
-                    <input
-                        type="checkbox"
-                        [value]="category"
-                        (change)="onCategoryChange($event)"
-                    />
                 </div>
             </div>
         </div>
 
-        <button type="submit" style="background-color: rgb(56, 55, 55);">Crear Producto</button>
+        <button type="submit">Crear Producto</button>
     </form>
 
-    <form *ngIf="productId" (ngSubmit)="uploadImage()" #imageForm="ngForm" style="margin-top: 30px;">
-        <div>
-            <label for="image">Subir Imagen:</label>
-            <input type="file" id="image" (change)="onFileSelected($event)" required />
+    <!-- Selección de imagen y vista previa de redimensionamiento -->
+    <div *ngIf="productId" style="margin-top: 20px;">
+        <label for="image">Selecciona la Imagen:</label>
+        <input type="file" id="image" (change)="onFileSelected($event)" />
+
+        <div *ngIf="croppedImage" class="image-preview-container">
+            <img [src]="croppedImage" alt="Imagen Redimensionada" class="image-preview" />
+            <form (ngSubmit)="uploadImage()" #imageForm="ngForm" style="margin-top: 10px;">
+                <button type="submit">Subir Imagen</button>
+            </form>
         </div>
-        <button type="submit" style="background-color: rgb(56, 55, 55);">Subir Imagen</button>
-    </form>
+    </div>
 </div>

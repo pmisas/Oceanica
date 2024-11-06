@@ -59,7 +59,7 @@ INSERT INTO categoria (nombre) VALUES
     ('ropa'),
     ('buceo'),
     ('piscina'),
-    ('electrónica'),
+    ('electronica'),
     ('mantenimiento'),
     ('deporte');
 

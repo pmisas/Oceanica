@@ -60,17 +60,23 @@ export class EditProductComponent implements OnInit {
   }
 
   filtrar(): void {
+    console.log(this.selectedFilter, this.selectedCategory)
     if (this.selectedFilter === 'todos') {
       this.productosFiltrados = [...this.productos];
-    } else if (this.selectedFilter === 'categoria' && this.selectedCategory) {
-      this.productosFiltrados = this.productos.filter(producto =>
-        producto.categorias.includes(this.selectedCategory)
-      );
+      this.actualizarPaginacion();
+    } else if (this.selectedFilter === 'categoria' && this.selectedCategory!= null) {
+      // Llamada al servicio para obtener productos por categoría
+      this.productoService.getProductsByCategory(this.selectedCategory).subscribe((data: Producto[]) => {
+        this.productosFiltrados = data;
+        console.log(data)
+        this.actualizarPaginacion();
+      });
     } else if (this.selectedFilter === 'id' && this.selectedId !== null) {
       this.productosFiltrados = this.productos.filter(producto => producto.id === this.selectedId);
+      this.actualizarPaginacion();
     }
-    this.actualizarPaginacion();
   }
+  
 
   actualizarPaginacion(): void {
     this.totalPaginas = Math.ceil(this.productos.length / this.itemsPorPagina);

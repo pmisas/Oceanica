@@ -61,6 +61,19 @@ public class ProductoController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductoById(@PathVariable Long id) {
+        Optional<Producto> productoOpt = productoRepository.findById(id);
+
+        if (productoOpt.isPresent()) {
+            return ResponseEntity.ok(productoOpt.get());
+        } else {
+            return ResponseEntity.status(404).body("Producto no encontrado");
+        }
+    }
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createProducto(@Valid @RequestBody Producto producto) {
         if (producto.getCategorias() == null || producto.getCategorias().isEmpty()) {

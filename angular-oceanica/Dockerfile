@@ -13,11 +13,8 @@ RUN npm install
 # Desactiva el análisis de Angular
 RUN npx ng analytics off
 
-# Compila la aplicación Angular en modo producción
-RUN npm run build
-
 # Expone el puerto que utilizará la aplicación
 EXPOSE 4200
 
-# Inicia la aplicación en modo de servidor Angular
+# Inicia la aplicación en modo de desarrollo para cambios en vivo
 CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--port", "4200"]

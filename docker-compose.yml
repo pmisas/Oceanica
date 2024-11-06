@@ -41,13 +41,13 @@ services:
       context: ./angular-oceanica  
       dockerfile: Dockerfile
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - NG_CLI_ANALYTICS=false
     ports:
       - "4200:4200"  
     volumes:
-      - ./angular-oceanica:/app
-      - /app/node_modules
+      - ./angular-oceanica:/app            # Monta el código fuente para ver cambios en vivo
+      - /app/node_modules                  # Evita conflictos con node_modules
     stdin_open: true
     tty: true
     networks:

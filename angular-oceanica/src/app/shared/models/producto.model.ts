@@ -1,10 +1,11 @@
   export interface Producto {
     id: number;
+    descripcion: string;
+    image: string;
     nombre: string;
     precio: number;
     stock: number;
-    descripcion: string;
-    image: string;
+    categorias: string[];
   }
 
   export interface Item {

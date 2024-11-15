@@ -5,7 +5,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Usa una imagen de JDK slim para ejecutar el proyecto
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk as runtime
 WORKDIR /app
 
 # Instala curl (opcional para pruebas de conectividad)

@@ -14,26 +14,35 @@
       <tr *ngFor="let item of (cartItems$ | async); let i = index">
         <td class="product-info">
           <img [src]="getImageUrl(item.id)" alt="Imagen del producto" class="product-image" />
-          <span>{{ item.nombre }}</span>
+          <span class="product-name">{{ item.nombre }}</span>
         </td>
-        <td class="shipping-info">Hasta 5 días hábiles</td>
-        <td>{{ item.precio | currency:'COP' }}</td>
-        <td>
+        <td class="shipping-info">a calcular</td>
+        <td>{{ item.precio | currency:'COP ' }}</td>
+        <td class="quantity-column">
           <div class="quantity-control">
-            <button (click)="decreaseQuantity(i)">-</button>
+            <button class="quantity-button" (click)="decreaseQuantity(i)">-</button>
             <input type="number" [value]="item.cantidad" readonly />
-            <button (click)="increaseQuantity(i)">+</button>
+            <button class="quantity-button" (click)="increaseQuantity(i)">+</button>
           </div>
         </td>
-        <td>{{ (item.precio * item.cantidad) | currency:'COP' }}</td>
+        <td>{{ (item.precio * item.cantidad) | currency:'COP ' }}</td>
       </tr>
     </tbody>
   </table>
 
   <div class="checkout-summary">
-    <p>Subtotal: {{ calculateSubtotal() | currency:'COP' }}</p>
-    <p>Gastos del envío: Gratis</p>
-    <p class="total">Total: {{ calculateTotal() | currency:'COP' }}</p>
-    <button class="checkout-button">FINALIZAR COMPRA</button>
+    <div class="summary-box">
+      <p>Subtotal: {{ calculateSubtotal() | currency:'COP ' }}</p>
+      <p>
+        Gastos del envío:
+        <span *ngIf="calculateEnvio() === 0">Gratis</span>
+        <span *ngIf="calculateEnvio() > 0">{{ calculateEnvio() | currency:'COP ' }}</span>
+      </p>
+      <p class="total">Total: {{ calculateTotal() | currency:'COP ' }}</p>
+    </div>
+    <div class="checkout-button-container">
+      <button class="checkout-button">FINALIZAR COMPRA</button>
+    </div>
+    <a (click)="goBack()" style="cursor: pointer;">AÑADIR MÁS PRODUCTOS</a>
   </div>
 </div>

@@ -60,5 +60,6 @@ export class CartComponent {
 
   goToCheckout() {
     this.router.navigate(['/checkout/cart']);
+    this.closeCart.emit(); 
   }
 }

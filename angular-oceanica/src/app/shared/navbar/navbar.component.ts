@@ -1,9 +1,9 @@
-// src/app/components/navbar/navbar.component.ts
 import { Component, EventEmitter, Output, OnInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd, Event } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../services/cart/cart.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -15,9 +15,10 @@ import { CartService } from '../services/cart/cart.service';
 export class NavbarComponent implements OnInit {
   isAdmin: boolean = false;
   isLoggedIn: boolean = false;
-  cartCount: number = 0; 
+  cartCount: number = 0;
+  showNavbar: boolean = true; // Controla la visibilidad del navbar
 
-  @Output() toggleCart = new EventEmitter<void>(); 
+  @Output() toggleCart = new EventEmitter<void>();
 
   constructor(private router: Router, private authService: AuthService, private cartService: CartService) {}
 
@@ -32,22 +33,31 @@ export class NavbarComponent implements OnInit {
     this.cartService.cartItems$.subscribe(items => {
       this.cartCount = Array.isArray(items) ? items.length : 0;
     });
-  
+
+    // Escucha cambios de ruta para actualizar showNavbar
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+      )
+      .subscribe((event: NavigationEnd) => {
+        // Oculta el navbar en la página de resumen de compra
+        this.showNavbar = !event.url.includes('/checkout/cart');
+      });
+
     this.onWindowScroll();
   }
 
   openCart(): void {
-    this.toggleCart.emit(); 
+    this.toggleCart.emit();
   }
 
-  
   navigateToAdmin(route: string): void {
     if (route === 'create-product') {
-        this.router.navigate(['/admin/new-product']);
+      this.router.navigate(['/admin/new-product']);
     } else if (route === 'edit-products') {
-        this.router.navigate(['/admin/edit-product']);
+      this.router.navigate(['/admin/edit-product']);
     } else {
-        this.router.navigate([`/admin/${route}`]);
+      this.router.navigate([`/admin/${route}`]);
     }
   }
 

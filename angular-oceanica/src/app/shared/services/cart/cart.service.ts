@@ -3,11 +3,13 @@ import { BehaviorSubject } from 'rxjs';
 import { Item, Producto } from '../../models/producto.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   private cartItems = new BehaviorSubject<Item[]>([]);
   cartItems$ = this.cartItems.asObservable();
+  private readonly envioGratisMinimo = 300000; // Precio mínimo para envío gratis
+  private readonly porcentajeEnvio = 0.05; // 5% del subtotal
 
   addItem(producto: Producto, cantidadDeseada: number) {
     const currentItems = this.cartItems.value;
@@ -26,7 +28,7 @@ export class CartService {
         nombre: producto.nombre,
         cantidad: cantidadDeseada,
         precio: producto.precio,
-        image: producto.image
+        image: producto.image,
       };
       currentItems.push(newItem);
     }
@@ -53,5 +55,25 @@ export class CartService {
 
   clearCart() {
     this.cartItems.next([]);
+  }
+
+  // Método para calcular el subtotal de la compra
+  calculateSubtotal(): number {
+    return this.cartItems.value.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  }
+
+  // Método para calcular el costo de envío
+  calculateEnvio(subtotal: number): number {
+    if (subtotal >= this.envioGratisMinimo) {
+      return 0; // Envío gratis
+    }
+    return subtotal * this.porcentajeEnvio; // 5% del subtotal
+  }
+
+  // Método para calcular el total de la compra (subtotal + envío)
+  calculateTotal(): number {
+    const subtotal = this.calculateSubtotal();
+    const envio = this.calculateEnvio(subtotal);
+    return subtotal + envio;
   }
 }
